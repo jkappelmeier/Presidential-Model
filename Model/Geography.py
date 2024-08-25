@@ -138,6 +138,17 @@ class Geography:
     # Estimate the vote for the current geographic object
     #
     def estimateVote(self):
+        # If has polls then combine polls with fundamentals
+        if len(self.polls) > 0:
+            self.runPollingAvg()
+            pollingNoise = self.pollSigma[-1, 0]**2 + C.pollingBiasSigmaNat**2 + C.pollingProcessNoiseNat * self.time[-1]
+            self.est = (self.fundEst * pollingNoise + self.pollAvg[-1, 0] * self.fundSigma**2) / (pollingNoise + self.fundSigma**2)
+            self.sigma = np.sqrt(pollingNoise * self.fundSigma**2 / (pollingNoise + self.fundSigma**2))
+
+        # Otherwise just use fundamentals
+        else:
+            self.est = self.fundEst
+            self.sigma = self.fundSigma
 
         # If has children then adjust the fundamentals estimate such that their sum matches the parent fundamentals estimate
         if len(self.children) > 0:
@@ -150,20 +161,7 @@ class Geography:
             voteFundFinal = self.adjustVote(voteFundInit, voteTurnout, self.fundEst)
             for i in range(len(self.children)):
                 self.children[i].fundEst = voteFundFinal[i]
-
-        # If has polls then combine polls with fundamentals
-        if len(self.polls) > 0:
-            self.runPollingAvg()
-            pollingNoise = self.pollSigma[-1, 0]**2 + C.pollingBiasSigmaNat**2 + C.pollingProcessNoiseNat * self.time[-1]
-            self.est = (self.fundEst * pollingNoise + self.pollAvg[-1, 0] * self.fundSigma**2) / (pollingNoise + self.fundSigma**2)
-            self.sigma = np.sqrt(pollingNoise * self.fundSigma**2 / (pollingNoise + self.fundSigma**2))
-        # Otherwise just use fundamentals
-        else:
-            sigma = self.fundSigma
-            if len(self.parent) > 0:
-                sigma = np.sqrt(sigma**2 + self.parent[0].sigma**2)
-            self.est = self.fundEst
-            self.sigma = sigma
+                self.children[i].fundSigma = np.sqrt(self.children[i].fundSigma**2 + self.sigma**2)
 
 
     # Add children to object.
@@ -176,7 +174,7 @@ class Geography:
                 self.addChildren(child[i])
         else:
             self.children.append(child)
-            self.children[-1].parent.append(self)
+            self.children[-1].parent = self
 
 
     # Adjusts the vote based on what the overall vote should be
