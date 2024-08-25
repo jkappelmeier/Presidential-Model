@@ -6,21 +6,27 @@ import Poll
 import datetime
 from scipy.stats import norm
 
-# This class defines the properties and methods for the national vote and
-# enviornment
-class National:
+# This class defines the properties and methods for estimating the vote of this geographic area
+class Geography:
 
     # Constructor for this class
     #
+    # Inputs:
+    #   name - name of this geography
+    #   est - initial estimate
+    #   sigma - initial uncertainty
+    #   turnoutEst - estimated turnout (# of votes)
     # Output:
     #   Instance of this class
-    def __init__(self):
+    def __init__(self, name, est, sigma, turnoutEst = 0):
+        self.name = name
+
         t0 = (C.electionDate - C.startDate).days
         tFinal = (C.electionDate - C.currentDate).days
         self.time = np.arange(t0, tFinal, -1)
 
-        self.est = C.incAvg
-        self.sigma = C.incSigma
+        self.est = est
+        self.sigma = sigma
 
         self.fundEst = self.est
         self.fundSigma = self.sigma
@@ -29,7 +35,12 @@ class National:
         self.pollAvg = []
         self.pollSigma = []
 
+        self.turnoutEst = turnoutEst
+
         self.probWin = 0
+
+        self.parent = []
+        self.children = []
 
 
     # Add poll(s) to this object
@@ -40,10 +51,10 @@ class National:
     #   result - Result as a vector in format [incumbent, challenger]
     #   pollster - Name of pollster
     #   sampleSize - Sample size of poll
-    def addPoll(self, poll):
+    def addPolls(self, poll):
         if isinstance(poll, list):
             for i in range(len(poll)):
-                self.addPoll(poll[i])
+                self.addPolls(poll[i])
         else:
             if len(self.polls) == 0:
                 self.polls.append(poll)
@@ -127,11 +138,69 @@ class National:
     # Estimate the vote for the current geographic object
     #
     def estimateVote(self):
+
+        # If has children then adjust the fundamentals estimate such that their sum matches the parent fundamentals estimate
+        if len(self.children) > 0:
+            voteFundInit = []
+            voteTurnout = []
+            for i in range(len(self.children)):
+                voteFundInit.append(self.children[i].fundEst)
+                voteTurnout.append(self.children[i].turnoutEst)
+            self.turnoutEst = sum(voteTurnout)
+            voteFundFinal = self.adjustVote(voteFundInit, voteTurnout, self.fundEst)
+            for i in range(len(self.children)):
+                self.children[i].fundEst = voteFundFinal[i]
+
+        # If has polls then combine polls with fundamentals
         if len(self.polls) > 0:
             self.runPollingAvg()
             pollingNoise = self.pollSigma[-1, 0]**2 + C.pollingBiasSigmaNat**2 + C.pollingProcessNoiseNat * self.time[-1]
             self.est = (self.fundEst * pollingNoise + self.pollAvg[-1, 0] * self.fundSigma**2) / (pollingNoise + self.fundSigma**2)
             self.sigma = np.sqrt(pollingNoise * self.fundSigma**2 / (pollingNoise + self.fundSigma**2))
+        # Otherwise just use fundamentals
+        else:
+            sigma = self.fundSigma
+            if len(self.parent) > 0:
+                sigma = np.sqrt(sigma**2 + self.parent[0].sigma**2)
+            self.est = self.fundEst
+            self.sigma = sigma
+
+
+    # Add children to object.
+    #
+    # Inputs:
+    #   child - child object or list of objects
+    def addChildren(self, child):
+        if isinstance(child, list):
+            for i in range(len(child)):
+                self.addChildren(child[i])
+        else:
+            self.children.append(child)
+            self.children[-1].parent.append(self)
+
+
+    # Adjusts the vote based on what the overall vote should be
+    #
+    # Inputs:
+    #   voteInit - Original vote (list)
+    #   voteTurnout - Turnout of each geography (list)
+    #   voteTotalFinal - Final total vote of all geographies
+    # Optional Input:
+    #   tol - Tolarance for adjusting vote
+    # Output:
+    #   voteFinal - FInal vote (list)
+    def adjustVote(self, voteInit, voteTurnout, voteTotalFinal, tol = 0.00001):
+        sumProduct = sum([a * b for a, b in zip(voteInit, voteTurnout)])
+        voteTotalCur = sumProduct / sum(voteTurnout)
+        if abs(voteTotalCur / voteTotalFinal - 1) < tol:
+            return voteInit
+        else:
+            diff = np.log(voteTotalFinal / (1 - voteTotalFinal)) - np.log(voteTotalCur / (1 - voteTotalCur))
+            voteEstDiff = []
+            for i in range(len(voteInit)):
+                x = np.log(voteInit[i] / (1 - voteInit[i])) + diff
+                voteEstDiff.append(1 / (1 + np.exp(-1 * x)))
+            return self.adjustVote(voteEstDiff, voteTurnout, voteTotalFinal)
 
 
     # Simulate the eleciton nSamples times
@@ -142,3 +211,6 @@ class National:
         self.estimateVote()
         winRate = norm.cdf((self.est - 0.5) / self.sigma)
         self.probWin = winRate
+        if len(self.children) > 0:
+            for i in range(len(self.children)):
+                self.children[i].runSimulation()
