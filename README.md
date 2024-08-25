@@ -1,7 +1,7 @@
 # Presidential-Model
 Model to forecast the 2024 Presidential Election
 
-Electoral College Vote:
+Electoral College Vote:\
     Kamala Harris - Average: 280.99 Electoral Votes | Chance of winning: 54.18%
     Donald Trump - Average: 257.01 Electoral Votes | Chance of winning: 45.5%
     Chance of Electoral Vote Tie: 0.32%
