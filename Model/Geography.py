@@ -16,10 +16,12 @@ class Geography:
     #   level - level of geography (National, State, etc)
     #   est - initial estimate
     #   sigma - initial uncertainty
+    # Optional Inputs:
     #   turnoutEst - estimated turnout (# of votes)
+    #   electoralVote - number of electoral votes
     # Output:
     #   Instance of this class
-    def __init__(self, name, level, est, sigma, turnoutEst = 0):
+    def __init__(self, name, level, est, sigma, turnoutEst = 0, electoralVote = 0):
         self.name = name
         self.level = level
 
@@ -37,9 +39,19 @@ class Geography:
         self.pollAvg = []
         self.pollSigma = []
 
+        if level == 'National':
+            self.pollingBiasSigma = C.pollingBiasSigmaNat
+            self.pollingProcessNoise = C.pollingProcessNoiseNat
+        elif level == 'State':
+            self.pollingBiasSigma = C.pollingBiasSigmaState
+            self.pollingProcessNoise = C.pollingProcessNoiseState
+
         self.turnoutEst = turnoutEst
+        self.electoralVote = electoralVote
+        self.correlation = []
 
         self.probWin = 0
+        self.covariance = []
 
         self.parent = []
         self.children = []
@@ -111,10 +123,7 @@ class Geography:
         for i in range(len(tVec)):
 
             # Set process noise based on level
-            if self.level == 'National':
-                qK = C.pollingProcessNoiseNat
-            elif self.level == 'State':
-                qK = C.pollingProcessNoiseState
+            qK = self.pollingProcessNoise
 
             if i == 0:
                 xK = x0
@@ -181,39 +190,76 @@ class Geography:
     # Estimate the vote for the current geographic object
     #
     def estimateVote(self):
-        # If has polls then combine polls with fundamentals
-        if len(self.polls) > 0:
-            self.runPollingAvg()
-            if self.level == 'National':
-                biasNoise = C.pollingBiasSigmaNat**2
-                q = C.pollingProcessNoiseNat
-            elif self.level == 'State':
-                biasNoise = C.pollingBiasSigmaState**2
-                q = C.pollingProcessNoiseState
-            pollingNoise = self.pollSigma[-1, 0]**2 + biasNoise + q * self.time[-1]
-            self.est = (self.fundEst * pollingNoise + self.pollAvg[-1, 0] * self.fundSigma**2) / (pollingNoise + self.fundSigma**2)
-            self.sigma = np.sqrt(pollingNoise * self.fundSigma**2 / (pollingNoise + self.fundSigma**2))
+        # National vote est
+        self.runPollingAvg()
+        biasNoise = self.pollingBiasSigma**2
+        q =  self.pollingProcessNoise
+        pollingNoise = self.pollSigma[-1, 0]**2 + biasNoise + q * self.time[-1]
 
-        # Otherwise just use fundamentals
-        else:
-            self.est = self.fundEst
-            self.sigma = self.fundSigma
+        self.est = (self.fundEst * pollingNoise + self.pollAvg[-1, 0] * self.fundSigma**2) / (pollingNoise + self.fundSigma**2)
+        self.sigma = np.sqrt(pollingNoise * self.fundSigma**2 / (pollingNoise + self.fundSigma**2))
+        winRate = norm.cdf((self.est - 0.5) / self.sigma)
+        self.probWin = winRate
 
         # If has children then adjust the fundamentals estimate such that their sum matches the parent fundamentals estimate
         if len(self.children) > 0:
-            voteFundInit = []
-            voteTurnout = []
-            for i in range(len(self.children)):
-                voteFundInit.append(self.children[i].fundEst)
-                voteTurnout.append(self.children[i].turnoutEst)
-            self.turnoutEst = sum(voteTurnout)
-            voteFundFinal = self.adjustVote(voteFundInit, voteTurnout, self.fundEst)
-            for i in range(len(self.children)):
-                self.children[i].fundEst = voteFundFinal[i]
 
-        # Add error from parent geography
-        if isinstance(self.parent, Geography):
-            self.sigma = np.sqrt(self.sigma**2 + self.parent.sigma**2)
+            # Get State-Level fundamentals data
+            stateFundEst = []
+            stateFundSigma = []
+            stateTurnout = []
+            for i in range(len(self.children)):
+                stateFundEst.append(self.children[i].fundEst)
+                stateFundSigma.append(self.children[i].sigma)
+                stateTurnout.append(self.children[i].turnoutEst)
+
+            # Adjust State-Fundamentals and run polling averages
+            self.turnoutEst = sum(stateTurnout)
+            stateFundEst = self.adjustVote(stateFundEst, stateTurnout, self.fundEst)
+
+            statePollingEst = []
+            statePollingSigma = []
+            statePollingBiasAndProcessSigma = []
+            for i in range(len(self.children)):
+                self.children[i].fundEst = stateFundEst[i]
+
+                self.children[i].runPollingAvg()
+                statePollingEst.append(self.children[i].pollAvg[-1, 0])
+                statePollingSigma.append(self.children[i].pollSigma[-1, 0])
+                statePollingBiasAndProcessSigma.append(np.sqrt(self.children[i].pollingBiasSigma**2 + self.children[i].pollingProcessNoise * self.time[-1]))
+
+
+            # State-level fundamentals estimate and covariance
+            stateFundEst = np.transpose(np.matrix(stateFundEst))
+            stateFundCovariance = np.multiply(np.transpose(np.matrix(stateFundSigma)) * np.matrix(stateFundSigma), self.correlation)
+
+            # State-level polling estimate and covariance
+            statePollingEst = np.transpose(np.matrix(statePollingEst))
+            statePollingCovariance = np.multiply(np.matrix(np.identity(len(self.children))), np.transpose(np.matrix(statePollingSigma)) * np.matrix(statePollingSigma))
+            statePollingCovarianceTotal = statePollingCovariance + np.multiply(np.transpose(np.matrix(statePollingBiasAndProcessSigma)) * np.matrix(statePollingBiasAndProcessSigma), self.correlation)
+
+            # Combine state-level fundamentals and polling data
+            y = statePollingEst - stateFundEst
+            S = stateFundCovariance + statePollingCovarianceTotal
+            K = stateFundCovariance * np.linalg.inv(S)
+            stateFinalEst = stateFundEst + K * y
+            stateFinalCovariance = (np.matrix(np.identity(len(self.children))) - K) * stateFundCovariance
+
+            # Add national error
+            stateFinalCovariance = stateFinalCovariance + np.matrix(np.ones([len(self.children), len(self.children)])) * self.sigma**2
+
+            # Assign values to state estimates
+            self.covariance = stateFinalCovariance
+            for i in range(len(self.children)):
+                self.children[i].est = stateFinalEst[i, 0]
+                self.children[i].sigma = np.sqrt(stateFinalCovariance[i, i])
+                winRate = norm.cdf((self.children[i].est - 0.5) / self.children[i].sigma)
+                self.children[i].probWin = winRate
+
+            # Adjusted popular vote estimate based on state estimates
+            phi = np.matrix(stateTurnout) / self.turnoutEst
+            self.est = (phi * stateFinalEst)[0, 0]
+            self.sigma = np.sqrt((phi * self.covariance * np.transpose(phi))[0, 0])
 
 
     # Add children to object.
@@ -238,29 +284,98 @@ class Geography:
     # Optional Input:
     #   tol - Tolarance for adjusting vote
     # Output:
-    #   voteFinal - FInal vote (list)
+    #   voteFinal - Final vote (list)
     def adjustVote(self, voteInit, voteTurnout, voteTotalFinal, tol = 0.00001):
         sumProduct = sum([a * b for a, b in zip(voteInit, voteTurnout)])
         voteTotalCur = sumProduct / sum(voteTurnout)
         if abs(voteTotalCur / voteTotalFinal - 1) < tol:
             return voteInit
         else:
-            diff = np.log(voteTotalFinal / (1 - voteTotalFinal)) - np.log(voteTotalCur / (1 - voteTotalCur))
+            diff = self.convertFromPercentage(voteTotalFinal) - self.convertFromPercentage(voteTotalCur)
             voteEstDiff = []
             for i in range(len(voteInit)):
-                x = np.log(voteInit[i] / (1 - voteInit[i])) + diff
-                voteEstDiff.append(1 / (1 + np.exp(-1 * x)))
+                z = self.convertFromPercentage(voteInit[i]) + diff
+                voteEstDiff.append(self.convertToPercentage(z))
             return self.adjustVote(voteEstDiff, voteTurnout, voteTotalFinal)
 
 
     # Simulate the eleciton nSamples times
     #
+    # Input:
+    #   nRuns - Number of times to simulate election
     # Output:
+    #   incAvg - Average electoral vote of incumbent
+    #   chalAvg - Average electoral vote of challenger
     #   winRate - Percent of times incumbent wins
-    def runSimulation(self):
+    #   lossRate - Percent of times incumbent loses
+    #   simStateVoteList - List of all the state results generated
+    def runSimulation(self, nRuns):
         self.estimateVote()
-        winRate = norm.cdf((self.est - 0.5) / self.sigma)
-        self.probWin = winRate
+
         if len(self.children) > 0:
-            for i in range(len(self.children)):
-                self.children[i].runSimulation()
+
+            # Collect data
+            stateEst = []
+            stateTurnout = []
+            stateElectoralVotes = []
+            for i in self.children:
+                stateEst.append(i.est)
+                stateTurnout.append(i.turnoutEst)
+                stateElectoralVotes.append(i.electoralVote)
+            stateEst = np.array(stateEst)
+            stateTurnout = np.array(stateTurnout)
+            stateElectoralVotes = np.array(stateElectoralVotes)
+
+            nWins = 0
+            nLoses = 0
+            nECInc = 0
+            nECChal = 0
+            simStateVoteList = []
+            for i in range(nRuns):
+                simStateVote = np.random.multivariate_normal(stateEst, self.covariance)
+                simStateWin = [1 if a_ > 0.5 else 0 for a_ in simStateVote]
+                electoralVotesWon = np.dot(simStateWin, stateElectoralVotes)
+                electoralVotesLost = sum(stateElectoralVotes) - electoralVotesWon
+                nECInc = nECInc + electoralVotesWon
+                nECChal = nECChal + electoralVotesLost
+                if electoralVotesWon > electoralVotesLost:
+                    nWins = nWins + 1
+                elif electoralVotesWon < electoralVotesLost:
+                    nLoses = nLoses + 1
+                simStateVoteList.append(simStateVote)
+
+                if i % 100 == 0:
+                    print(str(i) + ' / ' + str(nRuns) + ' Runs completed')
+
+            winRate = nWins /  nRuns
+            lossRate = nLoses / nRuns
+            incAvg = nECInc / nRuns
+            chalAvg = nECChal / nRuns
+
+            return [incAvg, chalAvg, winRate, lossRate, simStateVoteList]
+
+
+### Percentage to Noramlized format conversion methods. The purpose of the
+# normalized format is transform values from the percentage format to a space
+# where values can be negative and greater than 1. Then by converting back this
+# prevents the negative percentages or percentages beyond 1.
+
+    # Convert from a percentage to a normalized format
+    #
+    # Input:
+    #   x - Value in percentage form
+    # Output:
+    #   z - Value in normalized form
+    def convertFromPercentage(self, x):
+        z = np.log(x / (1 - x))
+        return z
+
+    # Convert from a normalized format to a percentage
+    #
+    # Input:
+    #   z - Value in normalized format
+    # Output:
+    #   x - Value in percentage form
+    def convertToPercentage(self, z):
+        x = 1 / (1 + np.exp(-1 * z))
+        return x
