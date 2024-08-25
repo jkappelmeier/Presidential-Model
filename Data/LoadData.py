@@ -28,7 +28,7 @@ with open('../Data/StateData.csv') as csvfile:
             if str(row[0]) == C.chalVPHomeState:
                 est = 1 / (1 + np.exp(-1 * (np.log(est / (1 - est)) - C.vpHomeStateBoost)))
 
-            state = Geography.Geography(str(row[0]), 'State', est, float(row[2]), float(row[3]))
+            state = Geography.Geography(str(row[0]), 'State', est, float(row[2]), float(row[3]), int(row[4]))
             states.append(state)
         rowCount = rowCount + 1
 
@@ -46,4 +46,15 @@ with open('../Data/Polls.csv') as csvfile:
             sampleSize = int(row[5])
             poll = Poll.Poll(geography, date, result, pollster, sampleSize)
             polls.append(poll)
+        rowCount = rowCount + 1
+
+
+# Load in correlation matrix
+cor = np.zeros([len(states), len(states)])
+with open('../Data/StateCorrelation.csv') as csvfile:
+    data = csv.reader(csvfile, delimiter = ',')
+    rowCount = 0
+    for row in data:
+        if rowCount > 0:
+            cor[rowCount - 1, :] = row[1:]
         rowCount = rowCount + 1
