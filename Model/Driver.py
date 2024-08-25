@@ -5,13 +5,13 @@ import Config as C
 import LoadData
 
 # Create National object
-nat = Geography.Geography('National', C.incAvg, C.incSigma)
+nat = Geography.Geography('National', 'National', C.incAvg, C.incSigma)
 
 # Add State objects
 nat.addChildren(LoadData.states)
 
 # Add polls
-nat.addPolls(LoadData.natPolls)
+nat.addPolls(LoadData.polls)
 
 # Run simulation
 nat.runSimulation()
