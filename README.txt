@@ -1,5 +1,5 @@
 # Presidential-Model
-Model to forecast the 2024 Presidential Election
+Model to forecast the 2024 Presidential Election as of 8/25/2024
 
 Electoral College Vote:
     Kamala Harris - Average: 280.99 Electoral Votes | Chance of winning: 54.18%
