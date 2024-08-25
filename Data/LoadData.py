@@ -28,26 +28,22 @@ with open('../Data/StateData.csv') as csvfile:
             if str(row[0]) == C.chalVPHomeState:
                 est = 1 / (1 + np.exp(-1 * (np.log(est / (1 - est)) - C.vpHomeStateBoost)))
 
-            state = Geography.Geography(str(row[0]), est, float(row[2]), float(row[3]))
+            state = Geography.Geography(str(row[0]), 'State', est, float(row[2]), float(row[3]))
             states.append(state)
         rowCount = rowCount + 1
 
-# Load in National Polls
-natPollsData = []
-natPolls = []
-with open('../Data/Polling/National.csv') as csvfile:
+# Load in polls
+polls = []
+with open('../Data/Polls.csv') as csvfile:
     data = csv.reader(csvfile, delimiter = ',')
     rowCount = 0
     for row in data:
         if rowCount > 0:
-            natPollsData.append(row)
+            geography = str(row[0])
+            date = str(row[1])
+            result = [float(row[2][:-1]), float(row[3][:-1])]
+            pollster = str(row[4])
+            sampleSize = int(row[5])
+            poll = Poll.Poll(geography, date, result, pollster, sampleSize)
+            polls.append(poll)
         rowCount = rowCount + 1
-
-for i in range(len(natPollsData)):
-    geography = str(natPollsData[i][0])
-    date = str(natPollsData[i][1])
-    result = [float(natPollsData[i][2][:-1]), float(natPollsData[i][3][:-1])]
-    pollster = str(natPollsData[i][4])
-    sampleSize = int(natPollsData[i][5])
-    poll = Poll.Poll(geography, date, result, pollster, sampleSize)
-    natPolls.append(poll)

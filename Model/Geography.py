@@ -13,13 +13,15 @@ class Geography:
     #
     # Inputs:
     #   name - name of this geography
+    #   level - level of geography (National, State, etc)
     #   est - initial estimate
     #   sigma - initial uncertainty
     #   turnoutEst - estimated turnout (# of votes)
     # Output:
     #   Instance of this class
-    def __init__(self, name, est, sigma, turnoutEst = 0):
+    def __init__(self, name, level, est, sigma, turnoutEst = 0):
         self.name = name
+        self.level = level
 
         t0 = (C.electionDate - C.startDate).days
         tFinal = (C.electionDate - C.currentDate).days
@@ -52,18 +54,26 @@ class Geography:
     #   pollster - Name of pollster
     #   sampleSize - Sample size of poll
     def addPolls(self, poll):
+        # If is a list of polls then loop through adding polls
         if isinstance(poll, list):
             for i in range(len(poll)):
                 self.addPolls(poll[i])
         else:
-            if len(self.polls) == 0:
-                self.polls.append(poll)
-            else:
-                for i in range(len(self.polls)):
-                    if (poll.date - self.polls[i].date).days <= 0:
-                        self.polls.insert(i, poll)
-                        return
+            # If geography is same then add poll
+            if poll.geography == self.name:
+                if len(self.polls) == 0:
                     self.polls.append(poll)
+                else:
+                    for i in range(len(self.polls)):
+                        if (poll.date - self.polls[i].date).days <= 0:
+                            self.polls.insert(i, poll)
+                            return
+                        self.polls.append(poll)
+            # If different geography then recursively search through children
+            elif len(self.children) > 0:
+                for i in self.children:
+                    i.addPolls(poll)
+
 
 
 
@@ -93,21 +103,54 @@ class Geography:
                         zVec[i, 0] = (zVec[i, 0] * self.polls[j].sigma**2 + self.polls[j].result * rVec[i, 0]) / (rVec[i, 0] + self.polls[j].sigma**2)
                         rVec[i, 0] = (1 - rVec[i, 0] / (rVec[i, 0] + self.polls[j].sigma**2)) * rVec[i, 0]
 
-        x0 = self.est
+        x0 = self.fundEst
         p0 = 100000
-        qK = C.pollingProcessNoiseNat
+
 
         # Run Kalman Filter on polls
         for i in range(len(tVec)):
+
+            # Set process noise based on level
+            if self.level == 'National':
+                qK = C.pollingProcessNoiseNat
+            elif self.level == 'State':
+                qK = C.pollingProcessNoiseState
 
             if i == 0:
                 xK = x0
                 pK = p0
                 dt = 0
             else:
-                xK = xVec[i - 1, 0]
+                # If is child then adjust polling estimate to account for changes in parent polling average
+                if isinstance(self.parent, Geography):
+                    natPrev = self.parent.pollAvg[i - 1, 0]
+                    natCur = self.parent.pollAvg[i, 0]
+
+                    # Estimate state vote based on previous national polls
+                    voteFundInit = []
+                    voteTurnout = []
+                    for j in range(len(self.parent.children)):
+                        voteFundInit.append(self.parent.children[j].fundEst)
+                        voteTurnout.append(self.parent.children[j].turnoutEst)
+                    voteFundFinal = self.adjustVote(voteFundInit, voteTurnout, natPrev)
+
+                    # Adjust vote of current poling average
+                    adjustValue = 0
+                    for j in range(len(self.parent.children)):
+                        adjustValue = adjustValue + voteTurnout[j] * voteFundFinal[j] * (1 - voteFundFinal[j])
+                    adjustValue = sum(voteTurnout) * (natCur - natPrev) / adjustValue
+
+                    xK = xVec[i - 1, 0]
+                    xK = 1 / (1 + np.exp(-1 * (np.log(xK / (1 - xK)) + adjustValue)))
+                    # Add noise based on noise in parent polling average
+                    parentNoise = self.parent.pollSigma[i, 0]**2 + self.parent.pollSigma[i - 1, 0]**2 - 2 * self.parent.pollSigma[i, 0] * self.parent.pollSigma[i - 1, 0]
+                    qK = C.pollingProcessNoiseNat + parentNoise
+                else:
+                    xK = xVec[i - 1, 0]
+                    qK = C.pollingProcessNoiseNat
                 pK = pVec[i - 1, 0]
                 dt = tVec[i - 1] - tVec[i]
+
 
             pK = pK + qK * dt
 
@@ -138,6 +181,23 @@ class Geography:
     # Estimate the vote for the current geographic object
     #
     def estimateVote(self):
+        # If has polls then combine polls with fundamentals
+        if len(self.polls) > 0:
+            self.runPollingAvg()
+            if self.level == 'National':
+                biasNoise = C.pollingBiasSigmaNat**2
+                q = C.pollingProcessNoiseNat
+            elif self.level == 'State':
+                biasNoise = C.pollingBiasSigmaState**2
+                q = C.pollingProcessNoiseState
+            pollingNoise = self.pollSigma[-1, 0]**2 + biasNoise + q * self.time[-1]
+            self.est = (self.fundEst * pollingNoise + self.pollAvg[-1, 0] * self.fundSigma**2) / (pollingNoise + self.fundSigma**2)
+            self.sigma = np.sqrt(pollingNoise * self.fundSigma**2 / (pollingNoise + self.fundSigma**2))
+
+        # Otherwise just use fundamentals
+        else:
+            self.est = self.fundEst
+            self.sigma = self.fundSigma
 
         # If has children then adjust the fundamentals estimate such that their sum matches the parent fundamentals estimate
         if len(self.children) > 0:
@@ -151,19 +211,9 @@ class Geography:
             for i in range(len(self.children)):
                 self.children[i].fundEst = voteFundFinal[i]
 
-        # If has polls then combine polls with fundamentals
-        if len(self.polls) > 0:
-            self.runPollingAvg()
-            pollingNoise = self.pollSigma[-1, 0]**2 + C.pollingBiasSigmaNat**2 + C.pollingProcessNoiseNat * self.time[-1]
-            self.est = (self.fundEst * pollingNoise + self.pollAvg[-1, 0] * self.fundSigma**2) / (pollingNoise + self.fundSigma**2)
-            self.sigma = np.sqrt(pollingNoise * self.fundSigma**2 / (pollingNoise + self.fundSigma**2))
-        # Otherwise just use fundamentals
-        else:
-            sigma = self.fundSigma
-            if len(self.parent) > 0:
-                sigma = np.sqrt(sigma**2 + self.parent[0].sigma**2)
-            self.est = self.fundEst
-            self.sigma = sigma
+        # Add error from parent geography
+        if isinstance(self.parent, Geography):
+            self.sigma = np.sqrt(self.sigma**2 + self.parent.sigma**2)
 
 
     # Add children to object.
@@ -176,7 +226,7 @@ class Geography:
                 self.addChildren(child[i])
         else:
             self.children.append(child)
-            self.children[-1].parent.append(self)
+            self.children[-1].parent = self
 
 
     # Adjusts the vote based on what the overall vote should be
