@@ -34,7 +34,7 @@ print('    ' + str(C.incCandidate) + ' - Estimate: ' + str(round(nat.est * 100, 
 print('    ' + str(C.chalCandidate) + ' - Estimate: ' + str(round((1 - nat.est) * 100, 2)) + '% | Chance of winning: ' + str(round((1 - nat.probWin) * 100, 2)) + '%')
 print('')
 for i in range(len(nat.children)):
-    print(str(nat.children[i].name) + ':')
+    print(str(nat.children[i].name) + ' (' + str(nat.children[i].electoralVote) + '):')
     print('    ' + str(C.incCandidate) + ' - Estimate: ' + str(round(nat.children[i].est * 100, 2)) + '% | Chance of winning: ' + str(round(nat.children[i].probWin * 100, 2)) + '%')
     print('    ' + str(C.chalCandidate) + ' - Estimate: ' + str(round((1 - nat.children[i].est) * 100, 2)) + '% | Chance of winning: ' + str(round((1 - nat.children[i].probWin) * 100, 2)) + '%')
     print('')
