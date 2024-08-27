@@ -1,6 +1,3 @@
-# Presidential-Model
-Model to forecast the 2024 Presidential Election as of 8/26/2024
-
 Popular Vote:
     Kamala Harris - Estimate: 51.64% | Chance of winning: 71.45%
     Donald Trump - Estimate: 48.36% | Chance of winning: 28.55%
