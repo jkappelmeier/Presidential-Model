@@ -19,14 +19,17 @@ class Geography:
     # Optional Inputs:
     #   turnoutEst - estimated turnout (# of votes)
     #   electoralVote - number of electoral votes
+    #   currentDate - current date
     # Output:
     #   Instance of this class
-    def __init__(self, name, level, est, sigma, turnoutEst = 0, electoralVote = 0):
+    def __init__(self, name, level, est, sigma, turnoutEst = 0, electoralVote = 0, currentDate = C.currentDate):
         self.name = name
         self.level = level
-
+        
+        self.currentDate = currentDate
+        
         t0 = (C.electionDate - C.startDate).days
-        tFinal = (C.electionDate - C.currentDate).days
+        tFinal = (C.electionDate - self.currentDate).days
         self.time = np.arange(t0, tFinal, -1)
 
         self.est = est
@@ -72,15 +75,8 @@ class Geography:
                 self.addPolls(poll[i])
         else:
             # If geography is same then add poll
-            if poll.geography == self.name:
-                if len(self.polls) == 0:
-                    self.polls.append(poll)
-                else:
-                    for i in range(len(self.polls)):
-                        if (poll.date - self.polls[i].date).days <= 0:
-                            self.polls.insert(i, poll)
-                            return
-                        self.polls.append(poll)
+            if poll.geography == self.name and (self.currentDate - poll.date).days >= 0:
+                self.polls.append(poll)
             # If different geography then recursively search through children
             elif len(self.children) > 0:
                 for i in self.children:
@@ -190,14 +186,16 @@ class Geography:
     # Estimate the vote for the current geographic object
     #
     def estimateVote(self):
+        
         # National vote est
-        self.runPollingAvg()
-        biasNoise = self.pollingBiasSigma**2
-        q =  self.pollingProcessNoise
-        pollingNoise = self.pollSigma[-1, 0]**2 + biasNoise + q * self.time[-1]
+        if len(self.polls) > 0:
+            self.runPollingAvg()
+            biasNoise = self.pollingBiasSigma**2
+            q =  self.pollingProcessNoise
+            pollingNoise = self.pollSigma[-1, 0]**2 + biasNoise + q * self.time[-1]
 
-        self.est = (self.fundEst * pollingNoise + self.pollAvg[-1, 0] * self.fundSigma**2) / (pollingNoise + self.fundSigma**2)
-        self.sigma = np.sqrt(pollingNoise * self.fundSigma**2 / (pollingNoise + self.fundSigma**2))
+            self.est = (self.fundEst * pollingNoise + self.pollAvg[-1, 0] * self.fundSigma**2) / (pollingNoise + self.fundSigma**2)
+            self.sigma = np.sqrt(pollingNoise * self.fundSigma**2 / (pollingNoise + self.fundSigma**2))
         winRate = norm.cdf((self.est - 0.5) / self.sigma)
         self.probWin = winRate
 
@@ -260,6 +258,8 @@ class Geography:
             phi = np.matrix(stateTurnout) / self.turnoutEst
             self.est = (phi * stateFinalEst)[0, 0]
             self.sigma = np.sqrt((phi * self.covariance * np.transpose(phi))[0, 0])
+            winRate = norm.cdf((self.est - 0.5) / self.sigma)
+            self.probWin = winRate
 
 
     # Add children to object.
@@ -273,6 +273,8 @@ class Geography:
         else:
             self.children.append(child)
             self.children[-1].parent = self
+            self.children[-1].currentDate = self.currentDate
+            self.children[-1].time = self.time
 
 
     # Adjusts the vote based on what the overall vote should be
@@ -328,20 +330,27 @@ class Geography:
 
             nWins = 0
             nLoses = 0
-            nECInc = 0
-            nECChal = 0
+            nECInc = []
+            nECChal = []
+            winPopAndLoseEC = 0
+            winECAndLosePop = 0
             simStateVoteList = []
             for i in range(nRuns):
                 simStateVote = np.random.multivariate_normal(stateEst, self.covariance)
+                popVote = np.average(simStateVote, weights = stateTurnout)
                 simStateWin = [1 if a_ > 0.5 else 0 for a_ in simStateVote]
                 electoralVotesWon = np.dot(simStateWin, stateElectoralVotes)
                 electoralVotesLost = sum(stateElectoralVotes) - electoralVotesWon
-                nECInc = nECInc + electoralVotesWon
-                nECChal = nECChal + electoralVotesLost
+                nECInc.append(electoralVotesWon)
+                nECChal.append(electoralVotesLost)
                 if electoralVotesWon > electoralVotesLost:
                     nWins = nWins + 1
+                    if popVote < 0.5:
+                        winECAndLosePop = winECAndLosePop + 1
                 elif electoralVotesWon < electoralVotesLost:
                     nLoses = nLoses + 1
+                    if popVote > 0.5:
+                        winPopAndLoseEC = winPopAndLoseEC + 1
                 simStateVoteList.append(simStateVote)
 
                 if i % 100 == 0:
@@ -349,10 +358,12 @@ class Geography:
 
             winRate = nWins /  nRuns
             lossRate = nLoses / nRuns
-            incAvg = nECInc / nRuns
-            chalAvg = nECChal / nRuns
+            incAvg = sum(nECInc) / nRuns
+            chalAvg = sum(nECChal) / nRuns
+            winPopAndLoseECChance = winPopAndLoseEC / nRuns
+            winECAndLosePopChance = winECAndLosePop / nRuns
 
-            return [incAvg, chalAvg, winRate, lossRate, simStateVoteList]
+            return [incAvg, chalAvg, winRate, lossRate, winPopAndLoseECChance, winECAndLosePopChance, simStateVoteList]
 
 
 ### Percentage to Noramlized format conversion methods. The purpose of the
@@ -379,3 +390,27 @@ class Geography:
     def convertToPercentage(self, z):
         x = 1 / (1 + np.exp(-1 * z))
         return x
+
+
+    # Convert uncertainty from percentage form to normalized form
+    #
+    # Input:
+    #   x - Value in percentage form
+    #   xSigma - Uncertainty in percentage form
+    # Output:
+    #   zSigma - Uncertainty in normalized form
+    def convertSigmaFromPercentage(self, x, xSigma):
+        zSigma = xSigma / (x * (1 - x))
+        return zSigma
+
+
+    # Convert Uncertainty from normalized form to percentage
+    #
+    # Input:
+    #   z - Value in normalized form
+    #   zSigma - Uncertainty in normalized form
+    # Output:
+    #   xSigma - Uncertainty in percentage form
+    def convertSigmaToPercentage(self, z, zSigma):
+        xSigma = zSigma * np.exp(-1 * z) / (1 + np.exp(-1 * z))**2
+        return xSigma
