@@ -1,3 +1,5 @@
+Electoral Vote Forecast as of 8/26/2024
+
 Electoral College Vote:
     Kamala Harris - Average: 281.92 Electoral Votes | Chance of winning: 54.34%
     Donald Trump - Average: 256.08 Electoral Votes | Chance of winning: 45.14%
