@@ -8,7 +8,7 @@ import Geography
 
 # Load in State Data
 states = []
-with open('../Data/StateData.csv') as csvfile:
+with open('../Data/StateFundamentals.csv') as csvfile:
     data = csv.reader(csvfile, delimiter = ',')
     rowCount = 0
     for row in data:

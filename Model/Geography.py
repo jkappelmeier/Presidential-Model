@@ -25,9 +25,9 @@ class Geography:
     def __init__(self, name, level, est, sigma, turnoutEst = 0, electoralVote = 0, currentDate = C.currentDate):
         self.name = name
         self.level = level
-        
+
         self.currentDate = currentDate
-        
+
         t0 = (C.electionDate - C.startDate).days
         tFinal = (C.electionDate - self.currentDate).days
         self.time = np.arange(t0, tFinal, -1)
@@ -97,6 +97,7 @@ class Geography:
         xVec = np.zeros([len(tVec), 1])
         pVec = np.zeros([len(tVec), 1])
 
+        # Organize polling "measurements" into vectors
         availFlagVec = np.zeros([len(tVec), 1])
         zVec = np.zeros([len(tVec), 1])
         rVec = np.zeros([len(tVec), 1])
@@ -111,6 +112,8 @@ class Geography:
                         zVec[i, 0] = (zVec[i, 0] * self.polls[j].sigma**2 + self.polls[j].result * rVec[i, 0]) / (rVec[i, 0] + self.polls[j].sigma**2)
                         rVec[i, 0] = (1 - rVec[i, 0] / (rVec[i, 0] + self.polls[j].sigma**2)) * rVec[i, 0]
 
+        # Inital uncertainty that is very large... uncertainty of fundamentals
+        # is incorporating later in estimateVote().
         x0 = self.fundEst
         p0 = 100000
 
@@ -118,44 +121,16 @@ class Geography:
         # Run Kalman Filter on polls
         for i in range(len(tVec)):
 
-            # Set process noise based on level
-            qK = self.pollingProcessNoise
-
             if i == 0:
                 xK = x0
                 pK = p0
+                qK = self.pollingProcessNoise
                 dt = 0
             else:
                 # If is child then adjust polling estimate to account for changes in parent polling average
-                if isinstance(self.parent, Geography):
-                    natPrev = self.parent.pollAvg[i - 1, 0]
-                    natCur = self.parent.pollAvg[i, 0]
-
-                    # Estimate state vote based on previous national polls
-                    voteFundInit = []
-                    voteTurnout = []
-                    for j in range(len(self.parent.children)):
-                        voteFundInit.append(self.parent.children[j].fundEst)
-                        voteTurnout.append(self.parent.children[j].turnoutEst)
-                    voteFundFinal = self.adjustVote(voteFundInit, voteTurnout, natPrev)
-
-                    # Adjust vote of current poling average
-                    adjustValue = 0
-                    for j in range(len(self.parent.children)):
-                        adjustValue = adjustValue + voteTurnout[j] * voteFundFinal[j] * (1 - voteFundFinal[j])
-                    adjustValue = sum(voteTurnout) * (natCur - natPrev) / adjustValue
-
-                    xK = xVec[i - 1, 0]
-                    xK = 1 / (1 + np.exp(-1 * (np.log(xK / (1 - xK)) + adjustValue)))
-                    # Add noise based on noise in parent polling average
-                    parentNoise = self.parent.pollSigma[i, 0]**2 + self.parent.pollSigma[i - 1, 0]**2 - 2 * self.parent.pollSigma[i, 0] * self.parent.pollSigma[i - 1, 0]
-                    qK = C.pollingProcessNoiseNat + parentNoise
-                else:
-                    xK = xVec[i - 1, 0]
-                    qK = C.pollingProcessNoiseNat
+                [xK, qK] = self.adjustPolls(xVec[i - 1, 0], tVec[i])
                 pK = pVec[i - 1, 0]
                 dt = tVec[i - 1] - tVec[i]
-
 
             pK = pK + qK * dt
 
@@ -183,10 +158,67 @@ class Geography:
         self.pollSigma = np.sqrt(pVec)
 
 
-    # Estimate the vote for the current geographic object
+    # This method is used for adjusting polling the case where the parent
+    # geography has polling movement. For example if a poll hasn't happened in a
+    # while in a state, but the national polling has moved by 10 points in one
+    # direction, adjust acordingly.
+    #
+    # Input:
+    #   xKPrev - Previous estimate of poll
+    #   t - Current time
+    # Outputs:
+    #   xK - New estimate at current time
+    #   qK - Process noise, accounting for current process noise and uncertainty
+    #        in the polling movement of the parent class
+    def adjustPolls(self, xKPrev, t):
+
+        # Get index of current time
+        i = np.where(self.time == t)[0]
+        # If geography has parent geography search for polling movement in that class
+        if isinstance(self.parent, Geography):
+            # If parent has no polls at current time look for movement in parent of parent polls
+            if self.parent.pollSigma[i - 1, 0] > 100:
+                [xK, qK] = [0, self.pollingProcessNoise] + self.parent.adjustPolls(xKPrev, t)
+            else:
+                parentPrev = self.parent.pollAvg[i - 1, 0]
+                parentCur = self.parent.pollAvg[i, 0]
+
+                # Estimate state vote based on previous polls of parent geography
+                voteFundInit = []
+                voteTurnout = []
+                for j in range(len(self.parent.children)):
+                    voteFundInit.append(self.parent.children[j].fundEst)
+                    voteTurnout.append(self.parent.children[j].turnoutEst)
+                voteFundFinal = self.adjustVote(voteFundInit, voteTurnout, parentPrev)
+
+                # Adjust vote of current polling average
+                adjustValue = 0
+                for j in range(len(self.parent.children)):
+                    adjustValue = adjustValue + voteTurnout[j] * voteFundFinal[j] * (1 - voteFundFinal[j])
+                adjustValue = sum(voteTurnout) * (parentCur - parentPrev) / adjustValue
+
+                xK = 1 / (1 + np.exp(-1 * (np.log(xKPrev / (1 - xKPrev)) + adjustValue)))
+
+                # Add noise based on noise in parent polling average
+                rho = self.parent.pollSigma[i, 0] / np.sqrt(self.parent.pollSigma[i, 0]**2 + self.parent.pollingProcessNoise) # Correlation between i and i-1
+                parentNoise = self.parent.pollSigma[i, 0]**2 + self.parent.pollSigma[i - 1, 0]**2 - 2 * self.parent.pollSigma[i, 0] * self.parent.pollSigma[i - 1, 0] * rho
+                qK = self.pollingProcessNoise + parentNoise
+        # Otherwise just use previous polling value
+        else:
+            xK = xKPrev
+            qK = self.pollingProcessNoise
+        return [xK, qK]
+
+
+    # Estimate the vote for all geographies. Note that this can only be executed
+    # for the National object.
     #
     def estimateVote(self):
-        
+
+        # Error if not National
+        if self.level != 'National':
+            raise Exception("This method can only be executed for objects at the National level")
+
         # National vote est
         if len(self.polls) > 0:
             self.runPollingAvg()
@@ -277,7 +309,11 @@ class Geography:
             self.children[-1].time = self.time
 
 
-    # Adjusts the vote based on what the overall vote should be
+    # Adjusts the vote based on what the overall vote should be. This is done by
+    # converting to logit form, recursively adding the appropriate value, and
+    # then converting back to percentage such that it equals the overall vote.
+    # This prevents values from going over 100% and punishes movement near 0 and
+    # 100%.
     #
     # Inputs:
     #   voteInit - Original vote (list)
@@ -293,10 +329,10 @@ class Geography:
         if abs(voteTotalCur / voteTotalFinal - 1) < tol:
             return voteInit
         else:
-            diff = self.convertFromPercentage(voteTotalFinal) - self.convertFromPercentage(voteTotalCur)
+            diff = self.convertToLogit(voteTotalFinal) - self.convertToLogit(voteTotalCur)
             voteEstDiff = []
             for i in range(len(voteInit)):
-                z = self.convertFromPercentage(voteInit[i]) + diff
+                z = self.convertToLogit(voteInit[i]) + diff
                 voteEstDiff.append(self.convertToPercentage(z))
             return self.adjustVote(voteEstDiff, voteTurnout, voteTotalFinal)
 
@@ -366,25 +402,25 @@ class Geography:
             return [incAvg, chalAvg, winRate, lossRate, winPopAndLoseECChance, winECAndLosePopChance, simStateVoteList]
 
 
-### Percentage to Noramlized format conversion methods. The purpose of the
-# normalized format is transform values from the percentage format to a space
-# where values can be negative and greater than 1. Then by converting back this
+### Percentage to logit format conversion methods. The purpose of the
+# logit form is transform values from the percentage format to a space where
+# values can be negative and greater than 1. Then by converting back this
 # prevents the negative percentages or percentages beyond 1.
 
-    # Convert from a percentage to a normalized format
+    # Convert from a percentage to a logit format
     #
     # Input:
     #   x - Value in percentage form
     # Output:
-    #   z - Value in normalized form
-    def convertFromPercentage(self, x):
+    #   z - Value in logit form
+    def convertToLogit(self, x):
         z = np.log(x / (1 - x))
         return z
 
-    # Convert from a normalized format to a percentage
+    # Convert from logit form to percentage
     #
     # Input:
-    #   z - Value in normalized format
+    #   z - Value in logit form
     # Output:
     #   x - Value in percentage form
     def convertToPercentage(self, z):
@@ -392,23 +428,23 @@ class Geography:
         return x
 
 
-    # Convert uncertainty from percentage form to normalized form
+    # Convert uncertainty from percentage form to logit form
     #
     # Input:
     #   x - Value in percentage form
     #   xSigma - Uncertainty in percentage form
     # Output:
-    #   zSigma - Uncertainty in normalized form
-    def convertSigmaFromPercentage(self, x, xSigma):
+    #   zSigma - Uncertainty in logit form
+    def convertSigmaFromLogit(self, x, xSigma):
         zSigma = xSigma / (x * (1 - x))
         return zSigma
 
 
-    # Convert Uncertainty from normalized form to percentage
+    # Convert Uncertainty from logit form to percentage
     #
     # Input:
-    #   z - Value in normalized form
-    #   zSigma - Uncertainty in normalized form
+    #   z - Value in logit form
+    #   zSigma - Uncertainty in logit form
     # Output:
     #   xSigma - Uncertainty in percentage form
     def convertSigmaToPercentage(self, z, zSigma):

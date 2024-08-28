@@ -34,9 +34,7 @@ pollingBiasSigmaNat = np.sqrt(0.000617) # National Polling Bias Noise
 
 
 ### State-Level Fundamental Constants
-presHomeStateBoost = 0.1424 # This is not a percentage but rather in "normalized format"
-# To convert from a normalized value to percent -> 1 / (1 + exp(-1*x)). Note that this value
-# is a CHANGE in the normalized value not the normalized value itself.
+presHomeStateBoost = 0.1424 # This is not a percentage but rather in logit form.
 vpHomeStateBoost = 0.0391
 
 
