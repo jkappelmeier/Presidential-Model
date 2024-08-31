@@ -3,8 +3,9 @@ import csv
 import sys
 import Config as C
 sys.path.insert(1, '../Model')
-import Poll
-import Geography
+import Core.Poll as Poll
+import Presidential.Geographies.State as State
+import Presidential.Geographies.CongressionalDistrict as CongressionalDistrict
 
 # Load in State Data
 states = []
@@ -18,19 +19,29 @@ with open('../Data/StateFundamentals.csv') as csvfile:
             elif C.incParty == 'R':
                 est = 1 - float(row[1])
 
+            # Get state name
+            stateName = row[0].split('-')[0]
+
             # Adjust for home state advantages
-            if str(row[0]) == C.incPresHomeState:
+            if stateName == C.incPresHomeState:
                 est = 1 / (1 + np.exp(-1 * (np.log(est / (1 - est)) + C.presHomeStateBoost)))
-            if str(row[0]) == C.chalPresHomeState:
+            if stateName == C.chalPresHomeState:
                 est = 1 / (1 + np.exp(-1 * (np.log(est / (1 - est)) - C.presHomeStateBoost)))
-            if str(row[0]) == C.incVPHomeState:
+            if stateName == C.incVPHomeState:
                 est = 1 / (1 + np.exp(-1 * (np.log(est / (1 - est)) + C.vpHomeStateBoost)))
-            if str(row[0]) == C.chalVPHomeState:
+            if stateName == C.chalVPHomeState:
                 est = 1 / (1 + np.exp(-1 * (np.log(est / (1 - est)) - C.vpHomeStateBoost)))
 
-            state = Geography.Geography(str(row[0]), 'State', est, float(row[2]), float(row[3]), int(row[4]))
-            states.append(state)
+            if "-" not in row[0]:
+                state = State.State(str(row[0]), est, float(row[2]), float(row[3]), int(row[4]))
+                states.append(state)
+            else:
+                cd = CongressionalDistrict.CongressionalDistrict(str(row[0]), est, float(row[2]), float(row[3]), int(row[4]))
+                for i in range(len(states)):
+                    if states[i].name == stateName:
+                        states[i].addChildren(cd)
         rowCount = rowCount + 1
+elementCount = rowCount - 1
 
 # Load in polls
 polls = []
@@ -50,7 +61,7 @@ with open('../Data/Polls.csv') as csvfile:
 
 
 # Load in correlation matrix
-cor = np.zeros([len(states), len(states)])
+cor = np.zeros([54, 54])
 with open('../Data/StateCorrelation.csv') as csvfile:
     data = csv.reader(csvfile, delimiter = ',')
     rowCount = 0

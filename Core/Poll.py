@@ -1,8 +1,9 @@
 import datetime
-import sys
-sys.path.insert(1, '../Data/')
-import Config as C
 import numpy as np
+import sys
+sys.path.insert(0, '../Data/')
+import Config as C
+
 
 # Class that contains information regarding a poll
 class Poll:
