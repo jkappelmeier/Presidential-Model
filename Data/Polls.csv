@@ -1,4 +1,73 @@
-﻿Geography,Date,Harris,Trump,Pollster,Sample Size
+Geography,Date,Harris,Trump,Pollster,Sample Size
+Texas,8/30/2024,44%,52%,Quantus Polls and News,1000
+Pennsylvania,8/29/2024,47%,48%,Wick,1607
+Pennsylvania,8/28/2024,46%,45%,Redfield & Wilton Strategies,1071
+Minnesota,8/29/2024,48%,43%,SurveyUSA,635
+Minnesota,8/28/2024,51%,42%,Redfield & Wilton Strategies,426
+Illinois,8/29/2024,58%,42%,ActiVote,400
+Tennessee,8/29/2024,37%,63%,ActiVote,400
+National,8/28/2024,51%,48%,RMG Research,2441
+National,8/28/2024,51%,45%,Clarity Campaign Labs,1238
+National,8/28/2024,45%,41%,Ipsos,3562
+National,8/26/2024,48%,43%,Change Research,2626
+National,8/25/2024,50%,46%,Leger,863
+Wisconsin,8/28/2024,48%,44%,Redfield & Wilton Strategies, 672
+North Carolina,8/28/2024,44%,45%,Redfield & Wilton Strategies,812
+New Mexico,8/28/2024,47%,40%,Redfield & Wilton Strategies,488
+Nevada,8/28/2024,47%,47%,Redfield & Wilton Strategies,490
+Michigan,8/28/2024,47%,44%,Redfield & Wilton Strategies,761
+Michigan,8/26/2024,45%,46%,EPIC-MRA,600
+Georgia,8/28/2024,42%,44%,Redfield & Wilton Strategies,699
+Florida,8/28/2024,43%,48%,Redfield & Wilton Strategies,850
+Florida,8/26/2024,45%,52%,Cherry Communications,600
+Arizona,8/28/2024,45%,46%,Redfield & Wilton Strategies,530
+West Virginia,8/27/2024,34%,61%,Research America,400
+National,8/29/2024,53%,47%,Outward Intelligence,2191
+National,8/28/2024,48%,43%,Suffolk University,1000
+National,8/28/2024,47%,45%,"Fabrizio, Lee & Associates/GBAO",1500
+National,8/28/2024,44%,40%,Ipsos,3562
+National,8/27/2024,49%,47%,Quinnipiac University,1611
+Wisconsin,8/28/2024,49%,50%,Emerson College,850
+Wisconsin,8/26/2024,52%,44%,Morning Consult,648
+Wisconsin,8/21/2024,47%,42%,Fabrizio Ward, 400
+Wisconsin,8/20/2024,46%,42%,Spry Strategies,600
+North Carolina,8/28/2024,49%,50%,Emerson College,775
+North Carolina,8/26/2024,48%,48%,Morning Consult,645
+North Carolina,8/20/2024,47%,45%,Spry Strategies,600
+Nevada,8/28/2024,49%,49%,Emerson College,1168
+Nevada,8/26/2024,48%,46%,Morning Consult,416
+Pennsylvania,8/28/2024,49%,49%,Emerson College,950
+Pennsylvania,8/26/2024,51%,46%,Morning Consult,758
+Pennsylvania,8/21/2024,43%,43%,Fabrizio Ward,400
+Pennsylvania,8/20/2024,46%,45%,Spry Strategies,600
+Michigan,8/28/2024,51%,48%,Emerson College,800
+Michigan,8/26/2024,49%,47%,Morning Consult,651
+Michigan,8/21/2024,44%,43%,Fabrizio Ward,400
+Georgia,8/28/2024,50%,49%,Emerson College,800
+Georgia,8/26/2024,48%,46%,Morning Consult,737
+Georgia,8/20/2024,47%,48%,Spry Strategies,600
+Arizona,8/28/2024,48%,51%,Emerson College,720
+Arizona,8/27/2024,49%,47%,Morning Consult,776
+Arizona,8/20/2024,46%,46%,Spry Strategies,600
+Missouri,8/16/2024,41%,54%,YouGov,900
+Florida,7/24/2024,42%,47%,Targoz Market Research,988
+National,8/28/2024,50%,43%,Big Village,1551
+National,8/27/2024,47%,45%,YouGov,1368
+Michigan,8/28/2024,50%,50%,ActiVote,400
+North Carolina,8/26/2024,49%,50%,Beacon Research/Shaw & Company Research,999
+Nevada,8/26/2024,50%,48%,Beacon Research/Shaw & Company Research,1026
+Nevada,8/14/2024,48%,42%,Strategies 360,350
+Georgia,8/26/2024,50%,48%,Beacon Research/Shaw & Company Research,1014
+Arizona,8/26/2024,50%,49%,Beacon Research/Shaw & Company Research,1014
+Arizona,8/14/2024,47%,46%,Strategies 360,400
+North Carolina,8/27/2024,46%,50%,SoCal Strategies,612
+National,8/27/2024,49%,47%,Quantus Polls and News,1094
+National,8/27/2024,44%,42%,YouGov,1200
+National,8/25/2024,49%,45%,Florida Atlantic University PolCom Lab/Mainstreet Research,856
+Florida,8/22/2024,47%,51%,Public Policy Polling,837
+Texas,8/22/2024,44%,49%,Public Policy Polling,725
+Maryland,8/20/2024,64%,32%,"Fabrizio, Lee & Associates/Impact Research",600
+Arizona,8/16/2024,44%,47%,Noble Predictive Insights,1003
 National,8/25/2024,48%,44%,Morning Consult,7818
 National,8/25/2024,48%,49%,Echelon Insights,1031
 National,8/24/2024,52%,45%,Kaplan Strategies,1190
@@ -242,4 +311,10 @@ National,7/21/2024,39%,45%,Florida Atlantic University PolCom Lab/Mainstreet Res
 National,7/21/2024,47%,49%,Echelon Insights,982
 New Hampshire,7/21/2024,39%,40%,Praecones Analytica,601
 Pennsylvania,7/21/2024,46%,50%,SoCal Research,500
-National,7/1/1938,43%,42%,Ipsos,876
+National,7/21/2024,43%,42%,Ipsos,876
+Maine-2,8/19/2024,49%,44%,University of New Hampshire Survey Center,432
+Maine-1,8/19/2024,62%,33%,University of New Hampshire Survey Center,490
+Maine-2,7/25/2024,40%,44%,University of New Hampshire Survey Center,701
+Maine-1,7/25/2024,56%,36%,University of New Hampshire Survey Center,732
+Nebraska-2,8/17/2024,50%,42%,Remington Research Group,656
+Nebraska-2,8/17/2024,47%,42%,Change Research,437
