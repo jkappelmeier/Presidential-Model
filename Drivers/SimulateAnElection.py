@@ -1,11 +1,12 @@
 import sys
 sys.path.append('../')
-import Geography
-import National
-import PresidentialModel
-import LoadData
+import Presidential.Geographies.National as National
+import Presidential.PresidentialModel as PresidentialModel
+import Presidential.LoadData as LoadData
+from Presidential.Geographies.CongressionalDistrict import *
 import datetime
 import Config as C
+
 
 
 # Create National object
@@ -23,34 +24,43 @@ nat.addPolls(LoadData.polls)
 
 
 # Run simulation
-[incAvg, chalAvg, winRate, lossRate, winPopAndLoseEC, winECAndLosePop, simStateVote] = nat.runSimulation(1)
+[incAvg, chalAvg, winRate, lossRate, winPopAndLoseEC, winECAndLosePop, simStateVote] = pres.runSimulation(1)
 simStateVote = simStateVote[0]
 popVote = 0
 totVote = 0
-for i in range(len(simStateVote)):
-    popVote = popVote + simStateVote[i] * nat.children[i].turnoutEst
-    totVote = totVote + nat.children[i].turnoutEst
+for i in range(len(pres.stateGeographies)):
+    popVote = popVote + simStateVote[i] * pres.stateGeographies[i].turnoutEst
+    totVote = totVote + pres.stateGeographies[i].turnoutEst
 
 popVote = popVote / totVote
 
 print('')
 print('Electoral College Vote:')
-print('    ' + str(C.incCandidate) + ': ' + str(round(incAvg, 2)) + ' Electoral Votes')
-print('    ' + str(C.chalCandidate) + ': ' + str(round(chalAvg, 2)) + ' Electoral Votes')
+print('    ' + str(C.incCandidate) + ' - Average: ' + str(round(incAvg, 2)) + ' Electoral Votes')
+print('    ' + str(C.chalCandidate) + ' - Average: ' + str(round(chalAvg, 2)) + ' Electoral Votes')
 print('')
 print('Popular Vote:')
 print('    ' + str(C.incCandidate) + ' - Estimate: ' + str(round(popVote * 100, 2)) + '%')
 print('    ' + str(C.chalCandidate) + ' - Estimate: ' + str(round((1 - popVote) * 100, 2)) + '%')
 print('')
-for i in range(len(nat.children)):
-    print(str(nat.children[i].name) + ' (' + str(nat.children[i].electoralVote) + '):')
-    print('    ' + str(C.incCandidate) + ' - Estimate: ' + str(round(simStateVote[i] * 100, 2)) + '%')
-    print('    ' + str(C.chalCandidate) + ' - Estimate: ' + str(round((1 - simStateVote[i]) * 100, 2)) + '%')
-    print('')
-    if len(nat.children[i].children) > 0:
-        for j in range(len(nat.children[i].children)):
-            print('    ' + str(nat.children[i].children[j].name) + ' (' + str(nat.children[i].children[j].electoralVotes) + '):')
-            print('        ' + str(C.incCandidate) + ' - Estimate: ' + str(round(nat.children[i].children[j].est * 100, 2)) + '%')
-            print('        ' + str(C.chalCandidate) + ' - Estimate: ' + str(round((1 - nat.children[i].children[j].est) * 100, 2)) + '%')
-            print('')
+stateCDSplitCount = 0
+mostRecentCDSplit = ''
+for i in range(len(pres.stateGeographies)):
+    if isinstance(pres.stateGeographies[i],CongressionalDistrict) and pres.stateGeographies[i].parent.name != mostRecentCDSplit:
+        print(str(pres.stateGeographies[i].parent.name) + ' (' + str(pres.stateGeographies[i].parent.electoralVotes) + '):')
+        print('    ' + str(C.incCandidate) + ' - Estimate: ' + str(round(simStateVote[len(pres.stateGeographies) + stateCDSplitCount] * 100, 2)) + '%')
+        print('    ' + str(C.chalCandidate) + ' - Estimate: ' + str(round((1 - simStateVote[len(pres.stateGeographies) + stateCDSplitCount]) * 100, 2)) + '%')
+        print('')
+        stateCDSplitCount = stateCDSplitCount + 1
+        mostRecentCDSplit = pres.stateGeographies[i].parent.name
+    if isinstance(pres.stateGeographies[i],CongressionalDistrict):
+        print('    ' + str(pres.stateGeographies[i].name) + ' (' + str(pres.stateGeographies[i].electoralVotes) + '):')
+        print('        ' + str(C.incCandidate) + ' - Estimate: ' + str(round(simStateVote[i] * 100, 2)) + '%')
+        print('        ' + str(C.chalCandidate) + ' - Estimate: ' + str(round((1 - simStateVote[i]) * 100, 2)) + '%')
+        print('')
+    else:
+        print(str(pres.stateGeographies[i].name) + ' (' + str(pres.stateGeographies[i].electoralVotes) + '):')
+        print('    ' + str(C.incCandidate) + ' - Estimate: ' + str(round(simStateVote[i] * 100, 2)) + '%')
+        print('    ' + str(C.chalCandidate) + ' - Estimate: ' + str(round((1 - simStateVote[i]) * 100, 2)) + '%')
+        print('')
 # %%

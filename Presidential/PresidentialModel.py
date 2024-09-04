@@ -62,11 +62,11 @@ class PresidentialModel(Model.Model):
                     simCDVote = simStateVote[indices]
                     cdTurnout = np.array(self.stateTurnout)[indices]
                     statePopVote = np.average(simCDVote, weights = cdTurnout)
+                    simStateVote = np.append(simStateVote,statePopVote)
                     if statePopVote > 0.5:
                         electoralVotesWon = electoralVotesWon + geography.electoralVotes
                     else:
                         electoralVotesLost = electoralVotesLost + geography.electoralVotes
-
             nECInc.append(electoralVotesWon)
             nECChal.append(electoralVotesLost)
             if electoralVotesWon > electoralVotesLost:
@@ -78,6 +78,7 @@ class PresidentialModel(Model.Model):
                 if popVote > 0.5:
                     winPopAndLoseEC = winPopAndLoseEC + 1
             simStateVoteList.append(simStateVote)
+
 
             if i % 100 == 0:
                 print(str(i) + ' / ' + str(nRuns) + ' Runs completed')
