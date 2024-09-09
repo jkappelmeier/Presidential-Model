@@ -35,10 +35,11 @@ class PresidentialModel(Model.Model):
 
         # Collect data
         stateElectoralVotes = []
-        for i in self.stateGeographies:
-            stateElectoralVotes.append(i.electoralVotes)
+        for i in self.allGeographies:
+            if i.name != self.geographyHead.name:
+                stateElectoralVotes.append(i.electoralVotes)
         stateElectoralVotes = np.array(stateElectoralVotes)
-        stateEst = np.array(np.transpose(self.stateEst))[0]
+        stateEst = np.array(np.transpose(self.finalEst))[0]
 
         nWins = 0
         nLoses = 0
@@ -48,27 +49,15 @@ class PresidentialModel(Model.Model):
         winECAndLosePop = 0
         simStateVoteList = []
         for i in range(nRuns):
-            simStateVote = np.random.multivariate_normal(stateEst, self.covariance)
-            popVote = np.average(simStateVote, weights = self.stateTurnout)
+            simVote = np.random.multivariate_normal(stateEst, self.finalCov)
+            popVote = simVote[0]
+            simStateVote = simVote[1:]
             simStateWin = [1 if a_ > 0.5 else 0 for a_ in simStateVote]
             electoralVotesWon = np.dot(simStateWin, stateElectoralVotes)
             electoralVotesLost = sum(stateElectoralVotes) - electoralVotesWon
-
-            # Electoral votes for Maine and Nebraska
-            for j in range(len(self.parentToStateIndices)):
-                geography = self.parentToStateIndices[j][0]
-                indices = self.parentToStateIndices[j][1]
-                if geography.name == 'Maine' or geography.name == 'Nebraska':
-                    simCDVote = simStateVote[indices]
-                    cdTurnout = np.array(self.stateTurnout)[indices]
-                    statePopVote = np.average(simCDVote, weights = cdTurnout)
-                    simStateVote = np.append(simStateVote,statePopVote)
-                    if statePopVote > 0.5:
-                        electoralVotesWon = electoralVotesWon + geography.electoralVotes
-                    else:
-                        electoralVotesLost = electoralVotesLost + geography.electoralVotes
             nECInc.append(electoralVotesWon)
             nECChal.append(electoralVotesLost)
+            
             if electoralVotesWon > electoralVotesLost:
                 nWins = nWins + 1
                 if popVote < 0.5:

@@ -20,8 +20,7 @@ pres = PresidentialModel.PresidentialModel('Presidential Model', nat, LoadData.c
 
 
 # Add polls
-nat.addPolls(LoadData.polls)
-
+pres.addPolls(LoadData.polls)
 
 # Run simulation
 [incAvg, chalAvg, winRate, lossRate, winPopAndLoseEC, winECAndLosePop, simStateVote] = pres.runSimulation(1)
@@ -45,21 +44,14 @@ print('    ' + str(C.chalCandidate) + ' - Estimate: ' + str(round((1 - popVote) 
 print('')
 stateCDSplitCount = 0
 mostRecentCDSplit = ''
-for i in range(len(pres.stateGeographies)):
-    if isinstance(pres.stateGeographies[i],CongressionalDistrict) and pres.stateGeographies[i].parent.name != mostRecentCDSplit:
-        print(str(pres.stateGeographies[i].parent.name) + ' (' + str(pres.stateGeographies[i].parent.electoralVotes) + '):')
-        print('    ' + str(C.incCandidate) + ' - Estimate: ' + str(round(simStateVote[len(pres.stateGeographies) + stateCDSplitCount] * 100, 2)) + '%')
-        print('    ' + str(C.chalCandidate) + ' - Estimate: ' + str(round((1 - simStateVote[len(pres.stateGeographies) + stateCDSplitCount]) * 100, 2)) + '%')
-        print('')
-        stateCDSplitCount = stateCDSplitCount + 1
-        mostRecentCDSplit = pres.stateGeographies[i].parent.name
-    if isinstance(pres.stateGeographies[i],CongressionalDistrict):
-        print('    ' + str(pres.stateGeographies[i].name) + ' (' + str(pres.stateGeographies[i].electoralVotes) + '):')
+for i in range(len(simStateVote)):
+    if isinstance(pres.allGeographies[i+1],CongressionalDistrict):
+        print('    ' + str(pres.allGeographies[i+1].name) + ' (' + str(pres.allGeographies[i+1].electoralVotes) + '):')
         print('        ' + str(C.incCandidate) + ' - Estimate: ' + str(round(simStateVote[i] * 100, 2)) + '%')
         print('        ' + str(C.chalCandidate) + ' - Estimate: ' + str(round((1 - simStateVote[i]) * 100, 2)) + '%')
         print('')
     else:
-        print(str(pres.stateGeographies[i].name) + ' (' + str(pres.stateGeographies[i].electoralVotes) + '):')
+        print(str(pres.allGeographies[i+1].name) + ' (' + str(pres.allGeographies[i+1].electoralVotes) + '):')
         print('    ' + str(C.incCandidate) + ' - Estimate: ' + str(round(simStateVote[i] * 100, 2)) + '%')
         print('    ' + str(C.chalCandidate) + ' - Estimate: ' + str(round((1 - simStateVote[i]) * 100, 2)) + '%')
         print('')
