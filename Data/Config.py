@@ -17,7 +17,7 @@ chalVPHomeState = 'Ohio'
 
 currentDate = datetime.date.today() # Current Date
 electionDate = datetime.date(2024,11,5) # Election Date
-startDate =  datetime.date(2024,7,22) # Campaign Start Date
+startDate =  datetime.date(2024,7,21) # Campaign Start Date
 
 
 ### National-Level Fundamental Consants

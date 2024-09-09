@@ -19,7 +19,9 @@ pres = PresidentialModel.PresidentialModel('Presidential Model', nat, LoadData.c
 
 
 # Add polls
-nat.addPolls(LoadData.polls)
+pres.addPolls(LoadData.polls)
+
+pres.estimateVote()
 
 
 # Run simulation
