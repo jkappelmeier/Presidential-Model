@@ -29,7 +29,7 @@ incSigma = 0.0501 # Standard deviation in incumbent 2-party vote share
 ### National-Level Polling Constants
 
 pollingSigmaSF = 0.0566 # Average polling error at N = 1000
-pollingProcessNoiseNat = 7.15e-6 # Polling process noise per day for national polls
+pollingProcessNoiseNat = 7.75e-6 # Polling process noise per day for national polls
 pollingBiasSigmaNat = np.sqrt(0.000617) # National Polling Bias Noise
 
 
@@ -40,7 +40,7 @@ vpHomeStateBoost = 0.0391
 
 ### State-Level Polling Constants
 
-pollingProcessNoiseState = 6.06e-6
+pollingProcessNoiseState = 6.57e-6
 pollingBiasSigmaState = np.sqrt(5.23e-4)
 
 

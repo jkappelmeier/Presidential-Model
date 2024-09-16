@@ -23,7 +23,7 @@ pres = PresidentialModel.PresidentialModel('Presidential Model', nat, LoadData.c
 pres.addPolls(LoadData.polls)
 
 # Run simulation
-[incAvg, chalAvg, winRate, lossRate, winPopAndLoseEC, winECAndLosePop, simStateVote] = pres.runSimulation(1)
+[incAvg, chalAvg, winRate, lossRate, winPopAndLoseEC, winECAndLosePop, tippingPoint, simStateVote] = pres.runSimulation(1)
 simStateVote = simStateVote[0]
 popVote = 0
 totVote = 0

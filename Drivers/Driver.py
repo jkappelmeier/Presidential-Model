@@ -3,8 +3,10 @@ sys.path.append('../')
 import Presidential.Geographies.National as National
 import Presidential.PresidentialModel as PresidentialModel
 import Presidential.LoadData as LoadData
+from Presidential.Geographies.CongressionalDistrict import *
 import datetime
 import Config as C
+import csv
 
 
 
@@ -21,11 +23,10 @@ pres = PresidentialModel.PresidentialModel('Presidential Model', nat, LoadData.c
 # Add polls
 pres.addPolls(LoadData.polls)
 
-pres.estimateVote()
 
 
 # Run simulation
-[incAvg, chalAvg, winRate, lossRate, winPopAndLoseEC, winECAndLosePop, simStateVote] = pres.runSimulation(10000)
+[incAvg, chalAvg, winRate, lossRate, winPopAndLoseEC, winECAndLosePop, tippingPoint, simStateVote] = pres.runSimulation(10000)
 
 print('')
 print('Electoral College Vote:')
@@ -39,16 +40,21 @@ print('Popular Vote:')
 print('    ' + str(C.incCandidate) + ' - Estimate: ' + str(round(nat.est * 100, 2)) + '% | Chance of winning: ' + str(round(nat.probWin * 100, 2)) + '%')
 print('    ' + str(C.chalCandidate) + ' - Estimate: ' + str(round((1 - nat.est) * 100, 2)) + '% | Chance of winning: ' + str(round((1 - nat.probWin) * 100, 2)) + '%')
 print('')
-for i in range(len(nat.children)):
-    print(str(nat.children[i].name) + ' (' + str(nat.children[i].electoralVotes) + '):')
-    print('    ' + str(C.incCandidate) + ' - Estimate: ' + str(round(nat.children[i].est * 100, 2)) + '% | Chance of winning: ' + str(round(nat.children[i].probWin * 100, 2)) + '%')
-    print('    ' + str(C.chalCandidate) + ' - Estimate: ' + str(round((1 - nat.children[i].est) * 100, 2)) + '% | Chance of winning: ' + str(round((1 - nat.children[i].probWin) * 100, 2)) + '%')
-    print('')
-    if len(nat.children[i].children) > 0:
-        for j in range(len(nat.children[i].children)):
-            print('    ' + str(nat.children[i].children[j].name) + ' (' + str(nat.children[i].children[j].electoralVotes) + '):')
-            print('        ' + str(C.incCandidate) + ' - Estimate: ' + str(round(nat.children[i].children[j].est * 100, 2)) + '% | Chance of winning: ' + str(round(nat.children[i].children[j].probWin * 100, 2)) + '%')
-            print('        ' + str(C.chalCandidate) + ' - Estimate: ' + str(round((1 - nat.children[i].children[j].est) * 100, 2)) + '% | Chance of winning: ' + str(round((1 - nat.children[i].children[j].probWin) * 100, 2)) + '%')
-            print('')
+for i in range(len(pres.allGeographies)-1):
+    if isinstance(pres.allGeographies[i+1],CongressionalDistrict):
+        print('    ' + str(pres.allGeographies[i+1].name) + ' (' + str(pres.allGeographies[i+1].electoralVotes) + ' - ' + str(round(tippingPoint[i]*100,2))+'% Tipping Point Chance):')
+        print('        ' + str(C.incCandidate) + ' - Estimate: ' + str(round(pres.allGeographies[i+1].est * 100, 2)) + '% | Chance of winning: ' + str(round(pres.allGeographies[i+1].probWin * 100, 2)) + '%')
+        print('        ' + str(C.chalCandidate) + ' - Estimate: ' + str(round((1 - pres.allGeographies[i+1].est) * 100, 2)) + '% | Chance of winning: ' + str(round((1 - pres.allGeographies[i+1].probWin) * 100, 2)) + '%')
+        print('')
+    else:
+        print(str(pres.allGeographies[i+1].name) + ' (' + str(pres.allGeographies[i+1].electoralVotes) + ' - ' + str(round(tippingPoint[i]*100,2))+'% Tipping Point Chance):')
+        print('    ' + str(C.incCandidate) + ' - Estimate: ' + str(round(pres.allGeographies[i+1].est * 100, 2)) + '% | Chance of winning: ' + str(round(pres.allGeographies[i+1].probWin * 100, 2)) + '%')
+        print('    ' + str(C.chalCandidate) + ' - Estimate: ' + str(round((1 - pres.allGeographies[i+1].est) * 100, 2)) + '% | Chance of winning: ' + str(round((1 - pres.allGeographies[i+1].probWin) * 100, 2)) + '%')
+        print('')
 
-# %%
+
+# All Sims
+with open('simulations.csv', 'w', newline = '') as csvfile:
+    spamwriter = csv.writer(csvfile, delimiter=',')
+    for row in simStateVote:
+        spamwriter.writerow(row)

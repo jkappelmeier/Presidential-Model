@@ -48,6 +48,7 @@ class PresidentialModel(Model.Model):
         winPopAndLoseEC = 0
         winECAndLosePop = 0
         simStateVoteList = []
+        tippingPoint = np.zeros(len(stateEst)-1)
         for i in range(nRuns):
             simVote = np.random.multivariate_normal(stateEst, self.finalCov)
             popVote = simVote[0]
@@ -57,7 +58,7 @@ class PresidentialModel(Model.Model):
             electoralVotesLost = sum(stateElectoralVotes) - electoralVotesWon
             nECInc.append(electoralVotesWon)
             nECChal.append(electoralVotesLost)
-            
+
             if electoralVotesWon > electoralVotesLost:
                 nWins = nWins + 1
                 if popVote < 0.5:
@@ -68,15 +69,30 @@ class PresidentialModel(Model.Model):
                     winPopAndLoseEC = winPopAndLoseEC + 1
             simStateVoteList.append(simStateVote)
 
+            # Find Tipping Point State
+            sortedIndices = np.argsort(simStateVote)
+            ec = 0
+            count = 0
+            while ec < 269:
+                ec = ec + stateElectoralVotes[sortedIndices[count]]
+                count = count + 1
+            tippingPoint[sortedIndices[count-1]] = tippingPoint[sortedIndices[count-1]] + 1
+            if self.allGeographies[sortedIndices[count-1]+1].name == 'Illinois':
+                a = 1
+            #print(self.allGeographies[sorted_indices[count-1]+1].name)
+
 
             if i % 100 == 0:
                 print(str(i) + ' / ' + str(nRuns) + ' Runs completed')
 
+        #for i in range(len(tippingPoint)):
+        #    print(self.allGeographies[i+1].name +', '+str(round(simStateVote[i]*100,2))+'%')
         winRate = nWins /  nRuns
         lossRate = nLoses / nRuns
         incAvg = sum(nECInc) / nRuns
         chalAvg = sum(nECChal) / nRuns
         winPopAndLoseECChance = winPopAndLoseEC / nRuns
         winECAndLosePopChance = winECAndLosePop / nRuns
+        tippingPoint = tippingPoint / np.sum(tippingPoint)
 
-        return [incAvg, chalAvg, winRate, lossRate, winPopAndLoseECChance, winECAndLosePopChance, simStateVoteList]
+        return [incAvg, chalAvg, winRate, lossRate, winPopAndLoseECChance, winECAndLosePopChance, tippingPoint, simStateVoteList]
