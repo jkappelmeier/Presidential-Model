@@ -94,12 +94,10 @@ class Model:
         # Adjust to estimate of national vote
         stateFundEst = logitConversions.adjustVote(stateFundEst, stateTurnout, self.geographyHead.fundEst)
 
-        self.xFund = np.insert(np.array(stateFundEst), 0, self.geographyHead.fundEst)
+        self.xFund = stateFundEst
         rho = self.correlation
         stateFundSigma = np.array(stateFundSigma)
-        self.xCovarianceFund = np.zeros([len(self.xFund),len(self.xFund)])
-        self.xCovarianceFund[0,0] = self.geographyHead.fundSigma**2
-        self.xCovarianceFund[1:,1:] = np.multiply(np.transpose(np.matrix(stateFundSigma)) * np.matrix(stateFundSigma), np.matrix(rho))
+        self.xCovarianceFund = np.multiply(np.transpose(np.matrix(stateFundSigma)) * np.matrix(stateFundSigma), np.matrix(rho)) + self.geographyHead.fundSigma**2
         self.xTurnoutEst = np.array(stateTurnout)
 
 
@@ -139,32 +137,13 @@ class Model:
     # Run the polling average for all geography areas concurently with covariance
     def runPollingAvg(self):
 
-        # Run National Polling Average First
-        x0Nat = self.geographyHead.fundEst
-        p0Nat = 10000
-        QNat = self.geographyHead.pollingProcessNoise
-        xNatK = x0Nat
-        pNatK = p0Nat
-        for i in range(len(self.time)):
-            pNatK = pNatK + QNat
-            if self.availFlags[i,0] > 0:
-                zK = self.zPolls[i, 0]
-                yK = zK - xNatK
-                S = pNatK + self.rPolls[i,0]
-                K = pNatK / S
-                xNatK = xNatK + K * yK
-                pNatK = (1-K)*pNatK
-            self.xPolling[i,0] = xNatK
-            self.xCovariancePolling[i,0,0] = pNatK
-
-
-        N = len(self.xFund)-1
+        N = len(self.xFund)
         m = len(self.allGeographies)
-        x0 = np.array(logitConversions.adjustVote(self.xFund[1:], self.xTurnoutEst, self.xPolling[0,0]))
-        p0 = 1000000 * np.identity(N)
 
         # Set up process noise and bias
         rho = self.correlation
+        p0 = 100000 * self.xCovarianceFund
+        x0 = self.xFund
         qVec = np.zeros(N)
         biasVec = np.zeros(N)
         for i in range(N):
@@ -172,8 +151,8 @@ class Model:
             biasVec[i] = self.stateGeographies[i].pollingBiasSigma
         qVec = np.matrix(qVec)
         biasVec = np.matrix(biasVec)
-        Q = np.multiply(np.transpose(qVec)*qVec, rho)
-        bias = np.multiply(np.transpose(biasVec)*biasVec, rho)
+        Q = np.multiply(np.transpose(qVec)*qVec, rho) + self.geographyHead.pollingProcessNoise
+        bias = np.multiply(np.transpose(biasVec)*biasVec, rho) + self.geographyHead.pollingBiasSigma**2
         # Set up measurement noise
         R = np.zeros([len(self.time), m, m])
         for i in range(len(self.time)):
@@ -181,29 +160,22 @@ class Model:
                 R[i,j,j] = self.rPolls[i,j]
 
         # Set up sensitivity matrix
-        H = self.stateGeoToAllGeoMap[1:,:]
+        H = self.stateGeoToAllGeoMap
 
         # Run Kalman Filter
         xK = np.transpose(np.matrix(x0))
         pK = p0
         for i in range(len(self.time)):
-            if i > 0 or self.xCovariancePolling[i-1,0,0]:
-                pK = pK + Q + QNat * np.matrix(np.ones([N,N]))
-            else:
-                xK = xK + (self.xPolling[i,0] - self.xPolling[i-1,0]) * np.matrix(np.ones([N,1]))
-                deltaSigma = self.xCovariancePolling[i,0,0] + self.xCovariancePolling[i-1,0,0] - 2 * np.sqrt(self.xCovariancePolling[i,0,0]) * np.sqrt(self.xCovariancePolling[i-1,0,0]) * np.sqrt(self.xCovariancePolling[i-1,0,0]/(self.xCovariancePolling[i-1,0,0]+QNat))
-                pK = pK + Q + deltaSigma * np.matrix(np.ones([N,N]))
-
-            if np.sum(self.availFlags[i, 1:]) > 0:
-                zK = self.zPolls[i, 1:]
-                zK = zK[self.availFlags[i, 1:]]
+            if np.sum(self.availFlags[i, :]) > 0:
+                zK = self.zPolls[i, :]
+                zK = zK[self.availFlags[i, :]]
                 zK = np.transpose(np.matrix(zK))
-                hK = H[self.availFlags[i,1:],:]
+                hK = H[self.availFlags[i,:],:]
                 hK = np.matrix(hK)
 
-                rK = R[i, 1:, 1:]
-                rK = rK[self.availFlags[i,1:], :]
-                rK = rK[:, self.availFlags[i, 1:]]
+                rK = R[i, :, :]
+                rK = rK[self.availFlags[i,:], :]
+                rK = rK[:, self.availFlags[i, :]]
                 rK = np.matrix(rK)
 
                 y = zK - hK * xK
@@ -214,8 +186,10 @@ class Model:
                 #pK = (np.identity(N) - K * hK) * pK
                 pK = (np.identity(N) - K * hK) * pK * np.transpose(np.identity(N) - K * hK) + K * rK * np.transpose(K)
 
-            self.xPolling[i, 1:] = np.array(np.transpose(xK))
-            self.xCovariancePolling[i, 1:, 1:] = np.array(pK + bias + self.time[i]*Q)
+            pK = pK + Q
+
+            self.xPolling[i, :] = np.array(np.transpose(xK))
+            self.xCovariancePolling[i, :, :] = np.array(pK + bias + self.time[i]*Q)
 
 
 
@@ -226,34 +200,17 @@ class Model:
         # Run all polling averages
         self.runPollingAvg()
 
-        # Combine Fundamentals and Polling for National Vote
-        xNat = self.geographyHead.fundEst
-        pNat = self.geographyHead.fundSigma**2
-        zNat = self.xPolling[-1,0]
-        rNat = self.xCovariancePolling[-1,0,0] + self.geographyHead.pollingBiasSigma**2 + self.geographyHead.pollingProcessNoise*self.time[-1]
-        yNat = zNat - xNat
-        S = pNat + rNat
-        K = pNat / S
-        xNatEst = xNat + K * yNat
-        pNatEst = (1 - K)*pNat
-
-        # Adjust state fundamentals to national enviornment
-        self.xFund[1:] = logitConversions.adjustVote(self.xFund[1:], self.xTurnoutEst, xNatEst)
-
         # Combine Fundamentals and Polling for States
-        xState = np.transpose(np.matrix(self.xFund[1:]))
-        pState = self.xCovarianceFund[1:,1:]
-        zState = np.transpose(np.matrix(self.xPolling[-1,1:]))
-        rState = np.matrix(self.xCovariancePolling[-1,1:,1:])
+        xState = np.transpose(np.matrix(self.xFund))
+        pState = self.xCovarianceFund
+        zState = np.transpose(np.matrix(self.xPolling[-1,:]))
+        rState = np.matrix(self.xCovariancePolling[-1,:,:])
         yState = zState - xState
         S = pState + rState
         K = pState * np.linalg.inv(S)
 
         xEst = xState + K * yState
-        pEst = (np.identity(len(xState)) - K) * pState * np.transpose(np.identity(len(xState)) - K) + K * np.matrix(pState) * np.transpose(K)
-
-        # Add national vote to state PVIs
-        pEst = pEst + np.matrix(np.ones([len(xState),len(xState)])) * pNatEst
+        pEst = (np.identity(len(xState)) - K) * pState * np.transpose(np.identity(len(xState)) - K) + K * np.matrix(rState) * np.transpose(K)
 
         self.stateEst = xEst
         self.covariance = pEst

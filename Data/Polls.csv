@@ -1,4 +1,35 @@
 Geography,Date,Harris,Trump,Pollster,Sample Size
+National,9/17/2024,49%,45%,YouGov,1445
+National,9/17/2024,53%,47%,ActiVote,1000
+National,9/16/2024,50%,45%,HarrisX,1505
+National,9/16/2024,50%,48%,Beacon Research/Shaw & Company Research,876
+Virginia,9/17/2024,55%,45%,ActiVote,400
+New Hampshire,9/16/2024,54%,43%,University of New Hampshire Survey Center,1695
+Massachusetts,9/16/2024,62%,31%,University of New Hampshire Survey Center,564
+Rhode Island,9/16/2024,58%,38%,University of New Hampshire Survey Center,683
+Wisconsin,9/16/2024,48%,47%,Quinnipiac University,1075
+Wisconsin,9/14/2024,48%,45%,"Fabrizio, Lee & Associates/Impact Research",600
+Michigan,9/16/2024,50%,45%,Quinnipiac University,905
+Pennsylvania,9/16/2024,51%,45%,Quinnipiac University,1331
+Georgia,9/15/2024,44%,47%,University of Georgia School of Public and International Affairs,1000
+Maine-2,9/15/2024,42%,49%,Pan Atlantic Research,398
+Maine-1,9/15/2024,58%,32%,Pan Atlantic Research,414
+National,9/16/2024,49%,45%,Angus Reid Global,1707
+National,9/16/2024,43%,42%,J.L. Partners,1000
+National,9/15/2024,51%,45%,Morning Consult,11022
+National,9/13/2024,50%,47%,HarrisX,3018
+National,9/12/2024,50%,45%,Morning Consult,10100
+National,9/9/2024,49%,46%,Morning Consult,10884
+California,9/16/2024,59%,34%,Capitol Weekly,1054
+Pennsylvania,9/15/2024,48%,50%,InsiderAdvantage,800
+Pennsylvania,9/14/2024,49%,46%,Suffolk University,500
+Georgia,9/15/2024,45%,46%,Trafalgar Group,1098
+Indiana,9/13/2024,41%,58%,Emerson College,1000
+Missouri,9/13/2024,43%,55%,Emerson College,850
+Missouri,9/13/2024,41%,50%,Change Research,1237
+Maryland,9/13/2024,65%,33%,Emerson College,890
+Arizona,9/9/2024,46%,46%,Data Orbital,550
+Washington,9/6/2024,53%,32%,Elway Research,403
 National,9/15/2024,51%,43%,Big Village,1568
 Nevada,9/13/2024,45%,44%,Trafalgar Group,1079
 New Hampshire,9/12/2024,51%,43%,Saint Anselm College Survey Center,2241
@@ -94,7 +125,7 @@ Minnesota,9/8/2024,51%,44%,Morning Consult,501
 Michigan,9/8/2024,49%,46%,Morning Consult,1368
 Michigan,8/23/2024,47%,46%,YouGov,500
 Maryland,9/8/2024,62%,34%,Morning Consult,640
-Florida,9/8/2024,49%,47%,Morning Consult,3182
+Florida,9/8/2024,47%,49%,Morning Consult,3182
 Colorado,9/8/2024,55%,40%,Morning Consult,498
 Arizona,9/8/2024,47%,49%,Morning Consult,901
 Wisconsin,9/6/2024,51%,49%,YouGov,946
