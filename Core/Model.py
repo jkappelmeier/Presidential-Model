@@ -94,10 +94,12 @@ class Model:
         # Adjust to estimate of national vote
         stateFundEst = logitConversions.adjustVote(stateFundEst, stateTurnout, self.geographyHead.fundEst)
 
-        self.xFund = stateFundEst
+        self.xFund = np.insert(np.array(stateFundEst), 0, self.geographyHead.fundEst)
         rho = self.correlation
         stateFundSigma = np.array(stateFundSigma)
-        self.xCovarianceFund = np.multiply(np.transpose(np.matrix(stateFundSigma)) * np.matrix(stateFundSigma), np.matrix(rho)) + self.geographyHead.fundSigma**2
+        self.xCovarianceFund = np.zeros([len(self.xFund),len(self.xFund)])
+        self.xCovarianceFund[0,0] = self.geographyHead.fundSigma**2
+        self.xCovarianceFund[1:,1:] = np.multiply(np.transpose(np.matrix(stateFundSigma)) * np.matrix(stateFundSigma), np.matrix(rho))
         self.xTurnoutEst = np.array(stateTurnout)
 
 
@@ -143,16 +145,20 @@ class Model:
         # Set up process noise and bias
         rho = self.correlation
         p0 = 100000 * self.xCovarianceFund
-        x0 = self.xFund
-        qVec = np.zeros(N)
-        biasVec = np.zeros(N)
-        for i in range(N):
+        x0 = np.zeros(len(self.xFund))
+        qVec = np.zeros(N-1)
+        biasVec = np.zeros(N-1)
+        for i in range(N-1):
             qVec[i] = np.sqrt(self.stateGeographies[i].pollingProcessNoise)
             biasVec[i] = self.stateGeographies[i].pollingBiasSigma
         qVec = np.matrix(qVec)
         biasVec = np.matrix(biasVec)
-        Q = np.multiply(np.transpose(qVec)*qVec, rho) + self.geographyHead.pollingProcessNoise
-        bias = np.multiply(np.transpose(biasVec)*biasVec, rho) + self.geographyHead.pollingBiasSigma**2
+        Q = np.zeros([N, N])
+        Q[1:,1:] = np.multiply(np.transpose(qVec)*qVec, rho)
+        Q[0,0] = self.geographyHead.pollingProcessNoise
+        bias = np.zeros([N,N])
+        bias[1:,1:] = np.multiply(np.transpose(biasVec)*biasVec, rho)
+        bias[0,0] = self.geographyHead.pollingBiasSigma**2
         # Set up measurement noise
         R = np.zeros([len(self.time), m, m])
         for i in range(len(self.time)):
@@ -160,7 +166,9 @@ class Model:
                 R[i,j,j] = self.rPolls[i,j]
 
         # Set up sensitivity matrix
-        H = self.stateGeoToAllGeoMap
+        H = np.zeros([m,N])
+        H[1:,1:] = self.stateGeoToAllGeoMap[1:,:]
+        H[:,0] = 1
 
         # Run Kalman Filter
         xK = np.transpose(np.matrix(x0))
@@ -178,7 +186,9 @@ class Model:
                 rK = rK[:, self.availFlags[i, :]]
                 rK = np.matrix(rK)
 
-                y = zK - hK * xK
+                fundEst = np.transpose(np.matrix(self.xFund))
+                fundEst[1:] = fundEst[1:] - fundEst[0]
+                y = zK - hK * (xK + fundEst)
                 S = hK * pK * np.transpose(hK) + rK
                 K = pK * np.transpose(hK) * np.linalg.inv(S)
 
@@ -199,24 +209,40 @@ class Model:
 
         # Run all polling averages
         self.runPollingAvg()
+        
+        N = len(self.xFund)
+        m = len(self.allGeographies)
 
         # Combine Fundamentals and Polling for States
-        xState = np.transpose(np.matrix(self.xFund))
+        xState = np.transpose(np.matrix(self.xFund-self.xFund))
         pState = self.xCovarianceFund
         zState = np.transpose(np.matrix(self.xPolling[-1,:]))
         rState = np.matrix(self.xCovariancePolling[-1,:,:])
-        yState = zState - xState
+        
+        # Set up sensitivity matrix
+        H = np.zeros([m,N])
+        H[1:,1:] = self.stateGeoToAllGeoMap[1:,:]
+        H[:,0] = 1
+        
+        fundEst = np.transpose(np.matrix(self.xFund))
+        fundEst[1:] = fundEst[1:] - fundEst[0]
+        
+        yState = zState
         S = pState + rState
         K = pState * np.linalg.inv(S)
 
         xEst = xState + K * yState
         pEst = (np.identity(len(xState)) - K) * pState * np.transpose(np.identity(len(xState)) - K) + K * np.matrix(rState) * np.transpose(K)
 
+
         self.stateEst = xEst
         self.covariance = pEst
+        
+        xEst = H * (self.stateEst + fundEst)
+        pEst = H * pEst * np.transpose(H)
 
-        self.finalEst = self.stateGeoToAllGeoMap*xEst
-        self.finalCov = self.stateGeoToAllGeoMap*pEst*np.transpose(self.stateGeoToAllGeoMap)
+        self.finalEst = xEst
+        self.finalCov = pEst
 
         # Assign estimates
         for i in range(len(self.allGeographies)):
