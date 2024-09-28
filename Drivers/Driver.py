@@ -17,7 +17,8 @@ nat = National.National('National', C.incAvg, C.incSigma)
 nat.addChildren(LoadData.states)
 
 # Assign to Model
-pres = PresidentialModel.PresidentialModel('Presidential Model', nat, LoadData.cor, currentDate = datetime.date(2024,9,18))
+# pres = PresidentialModel.PresidentialModel('Presidential Model', nat, LoadData.cor, currentDate = datetime.date(2024,9,22))
+pres = PresidentialModel.PresidentialModel('Presidential Model', nat, LoadData.cor)
 
 
 # Add polls
