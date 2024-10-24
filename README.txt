@@ -1,236 +1,236 @@
-Electoral Vote Forecast as of 10/22/2024
+Electoral Vote Forecast as of 10/23/2024
 
 Electoral College Vote:
-    Kamala Harris - Average: 272.7 Electoral Votes | Chance of winning: 49.13%
-    Donald Trump - Average: 265.3 Electoral Votes | Chance of winning: 49.88%
-    Chance of Electoral Vote Tie: 0.99%
-    Chance of Kamala Harris winning the popular vote and losing the Electoral College: 20.85%
-    Chance of Donald Trump winning the popular vote and losing the Electoral College: 0.48%
+    Kamala Harris - Average: 273.16 Electoral Votes | Chance of winning: 50.26%
+    Donald Trump - Average: 264.84 Electoral Votes | Chance of winning: 48.71%
+    Chance of Electoral Vote Tie: 1.03%
+    Chance of Kamala Harris winning the popular vote and losing the Electoral College: 20.21%
+    Chance of Donald Trump winning the popular vote and losing the Electoral College: 0.5%
 
 Popular Vote:
-    Kamala Harris - Estimate: 51.3% | Chance of winning: 70.2%
-    Donald Trump - Estimate: 48.7% | Chance of winning: 29.8%
+    Kamala Harris - Estimate: 51.31% | Chance of winning: 70.51%
+    Donald Trump - Estimate: 48.69% | Chance of winning: 29.49%
 
 Alabama (9 - 0.0% Tipping Point Chance):
-    Kamala Harris - Estimate: 37.15% | Chance of winning: 0.01%
-    Donald Trump - Estimate: 62.85% | Chance of winning: 99.99%
+    Kamala Harris - Estimate: 37.16% | Chance of winning: 0.01%
+    Donald Trump - Estimate: 62.84% | Chance of winning: 99.99%
 
-Alaska (3 - 0.14% Tipping Point Chance):
-    Kamala Harris - Estimate: 42.72% | Chance of winning: 1.66%
-    Donald Trump - Estimate: 57.28% | Chance of winning: 98.34%
+Alaska (3 - 0.05% Tipping Point Chance):
+    Kamala Harris - Estimate: 42.75% | Chance of winning: 1.67%
+    Donald Trump - Estimate: 57.25% | Chance of winning: 98.33%
 
-Arizona (11 - 4.52% Tipping Point Chance):
-    Kamala Harris - Estimate: 48.85% | Chance of winning: 36.67%
-    Donald Trump - Estimate: 51.15% | Chance of winning: 63.33%
+Arizona (11 - 4.56% Tipping Point Chance):
+    Kamala Harris - Estimate: 48.87% | Chance of winning: 36.87%
+    Donald Trump - Estimate: 51.13% | Chance of winning: 63.13%
 
 Arkansas (6 - 0.0% Tipping Point Chance):
-    Kamala Harris - Estimate: 36.62% | Chance of winning: 0.01%
-    Donald Trump - Estimate: 63.38% | Chance of winning: 99.99%
+    Kamala Harris - Estimate: 36.64% | Chance of winning: 0.01%
+    Donald Trump - Estimate: 63.36% | Chance of winning: 99.99%
 
 California (54 - 0.0% Tipping Point Chance):
-    Kamala Harris - Estimate: 65.54% | Chance of winning: 100.0%
-    Donald Trump - Estimate: 34.46% | Chance of winning: 0.0%
+    Kamala Harris - Estimate: 65.53% | Chance of winning: 100.0%
+    Donald Trump - Estimate: 34.47% | Chance of winning: 0.0%
 
-Colorado (10 - 0.78% Tipping Point Chance):
-    Kamala Harris - Estimate: 55.52% | Chance of winning: 94.21%
-    Donald Trump - Estimate: 44.48% | Chance of winning: 5.79%
+Colorado (10 - 0.98% Tipping Point Chance):
+    Kamala Harris - Estimate: 55.59% | Chance of winning: 94.51%
+    Donald Trump - Estimate: 44.41% | Chance of winning: 5.49%
 
-Connecticut (7 - 0.0% Tipping Point Chance):
-    Kamala Harris - Estimate: 58.07% | Chance of winning: 99.06%
-    Donald Trump - Estimate: 41.93% | Chance of winning: 0.94%
+Connecticut (7 - 0.01% Tipping Point Chance):
+    Kamala Harris - Estimate: 58.09% | Chance of winning: 99.1%
+    Donald Trump - Estimate: 41.91% | Chance of winning: 0.9%
 
-Delaware (3 - 0.43% Tipping Point Chance):
-    Kamala Harris - Estimate: 55.05% | Chance of winning: 92.42%
-    Donald Trump - Estimate: 44.95% | Chance of winning: 7.58%
+Delaware (3 - 0.21% Tipping Point Chance):
+    Kamala Harris - Estimate: 55.04% | Chance of winning: 92.48%
+    Donald Trump - Estimate: 44.96% | Chance of winning: 7.52%
 
 District of Columbia (3 - 0.0% Tipping Point Chance):
-    Kamala Harris - Estimate: 93.48% | Chance of winning: 100.0%
-    Donald Trump - Estimate: 6.52% | Chance of winning: 0.0%
+    Kamala Harris - Estimate: 93.53% | Chance of winning: 100.0%
+    Donald Trump - Estimate: 6.47% | Chance of winning: 0.0%
 
-Florida (30 - 7.13% Tipping Point Chance):
-    Kamala Harris - Estimate: 46.84% | Chance of winning: 17.56%
-    Donald Trump - Estimate: 53.16% | Chance of winning: 82.44%
+Florida (30 - 6.6% Tipping Point Chance):
+    Kamala Harris - Estimate: 46.83% | Chance of winning: 17.34%
+    Donald Trump - Estimate: 53.17% | Chance of winning: 82.66%
 
-Georgia (16 - 8.75% Tipping Point Chance):
-    Kamala Harris - Estimate: 49.03% | Chance of winning: 38.68%
-    Donald Trump - Estimate: 50.97% | Chance of winning: 61.32%
+Georgia (16 - 8.95% Tipping Point Chance):
+    Kamala Harris - Estimate: 49.03% | Chance of winning: 38.61%
+    Donald Trump - Estimate: 50.97% | Chance of winning: 61.39%
 
 Hawaii (4 - 0.0% Tipping Point Chance):
-    Kamala Harris - Estimate: 64.0% | Chance of winning: 99.99%
-    Donald Trump - Estimate: 36.0% | Chance of winning: 0.01%
+    Kamala Harris - Estimate: 63.95% | Chance of winning: 99.99%
+    Donald Trump - Estimate: 36.05% | Chance of winning: 0.01%
 
 Idaho (4 - 0.0% Tipping Point Chance):
-    Kamala Harris - Estimate: 33.49% | Chance of winning: 0.0%
-    Donald Trump - Estimate: 66.51% | Chance of winning: 100.0%
+    Kamala Harris - Estimate: 33.57% | Chance of winning: 0.0%
+    Donald Trump - Estimate: 66.43% | Chance of winning: 100.0%
 
-Illinois (19 - 0.37% Tipping Point Chance):
-    Kamala Harris - Estimate: 57.04% | Chance of winning: 97.59%
-    Donald Trump - Estimate: 42.96% | Chance of winning: 2.41%
+Illinois (19 - 0.22% Tipping Point Chance):
+    Kamala Harris - Estimate: 57.1% | Chance of winning: 97.74%
+    Donald Trump - Estimate: 42.9% | Chance of winning: 2.26%
 
-Indiana (11 - 0.01% Tipping Point Chance):
-    Kamala Harris - Estimate: 42.68% | Chance of winning: 1.65%
-    Donald Trump - Estimate: 57.32% | Chance of winning: 98.35%
+Indiana (11 - 0.03% Tipping Point Chance):
+    Kamala Harris - Estimate: 42.74% | Chance of winning: 1.69%
+    Donald Trump - Estimate: 57.26% | Chance of winning: 98.31%
 
-Iowa (6 - 2.13% Tipping Point Chance):
-    Kamala Harris - Estimate: 46.62% | Chance of winning: 16.15%
-    Donald Trump - Estimate: 53.38% | Chance of winning: 83.85%
+Iowa (6 - 1.93% Tipping Point Chance):
+    Kamala Harris - Estimate: 46.69% | Chance of winning: 16.52%
+    Donald Trump - Estimate: 53.31% | Chance of winning: 83.48%
 
-Kansas (6 - 0.05% Tipping Point Chance):
-    Kamala Harris - Estimate: 42.51% | Chance of winning: 1.64%
-    Donald Trump - Estimate: 57.49% | Chance of winning: 98.36%
+Kansas (6 - 0.02% Tipping Point Chance):
+    Kamala Harris - Estimate: 42.57% | Chance of winning: 1.66%
+    Donald Trump - Estimate: 57.43% | Chance of winning: 98.34%
 
 Kentucky (8 - 0.0% Tipping Point Chance):
-    Kamala Harris - Estimate: 36.77% | Chance of winning: 0.01%
-    Donald Trump - Estimate: 63.23% | Chance of winning: 99.99%
+    Kamala Harris - Estimate: 36.82% | Chance of winning: 0.01%
+    Donald Trump - Estimate: 63.18% | Chance of winning: 99.99%
 
 Louisiana (8 - 0.0% Tipping Point Chance):
-    Kamala Harris - Estimate: 40.19% | Chance of winning: 0.2%
-    Donald Trump - Estimate: 59.81% | Chance of winning: 99.8%
+    Kamala Harris - Estimate: 40.21% | Chance of winning: 0.2%
+    Donald Trump - Estimate: 59.79% | Chance of winning: 99.8%
 
-Maine (2 - 0.3% Tipping Point Chance):
-    Kamala Harris - Estimate: 53.8% | Chance of winning: 87.34%
-    Donald Trump - Estimate: 46.2% | Chance of winning: 12.66%
+Maine (2 - 0.28% Tipping Point Chance):
+    Kamala Harris - Estimate: 53.82% | Chance of winning: 87.57%
+    Donald Trump - Estimate: 46.18% | Chance of winning: 12.43%
 
     Maine-1 (1 - 0.0% Tipping Point Chance):
-        Kamala Harris - Estimate: 60.81% | Chance of winning: 99.92%
-        Donald Trump - Estimate: 39.19% | Chance of winning: 0.08%
+        Kamala Harris - Estimate: 60.83% | Chance of winning: 99.93%
+        Donald Trump - Estimate: 39.17% | Chance of winning: 0.07%
 
-    Maine-2 (1 - 0.54% Tipping Point Chance):
-        Kamala Harris - Estimate: 45.54% | Chance of winning: 9.78%
-        Donald Trump - Estimate: 54.46% | Chance of winning: 90.22%
+    Maine-2 (1 - 0.47% Tipping Point Chance):
+        Kamala Harris - Estimate: 45.56% | Chance of winning: 9.74%
+        Donald Trump - Estimate: 54.44% | Chance of winning: 90.26%
 
 Maryland (10 - 0.0% Tipping Point Chance):
-    Kamala Harris - Estimate: 64.81% | Chance of winning: 100.0%
-    Donald Trump - Estimate: 35.19% | Chance of winning: 0.0%
+    Kamala Harris - Estimate: 64.8% | Chance of winning: 100.0%
+    Donald Trump - Estimate: 35.2% | Chance of winning: 0.0%
 
 Massachusetts (11 - 0.0% Tipping Point Chance):
-    Kamala Harris - Estimate: 64.95% | Chance of winning: 100.0%
-    Donald Trump - Estimate: 35.05% | Chance of winning: 0.0%
+    Kamala Harris - Estimate: 64.96% | Chance of winning: 100.0%
+    Donald Trump - Estimate: 35.04% | Chance of winning: 0.0%
 
-Michigan (15 - 12.84% Tipping Point Chance):
-    Kamala Harris - Estimate: 50.28% | Chance of winning: 53.35%
-    Donald Trump - Estimate: 49.72% | Chance of winning: 46.65%
+Michigan (15 - 12.93% Tipping Point Chance):
+    Kamala Harris - Estimate: 50.36% | Chance of winning: 54.24%
+    Donald Trump - Estimate: 49.64% | Chance of winning: 45.76%
 
-Minnesota (10 - 1.45% Tipping Point Chance):
-    Kamala Harris - Estimate: 53.61% | Chance of winning: 85.52%
-    Donald Trump - Estimate: 46.39% | Chance of winning: 14.48%
+Minnesota (10 - 1.39% Tipping Point Chance):
+    Kamala Harris - Estimate: 53.67% | Chance of winning: 86.03%
+    Donald Trump - Estimate: 46.33% | Chance of winning: 13.97%
 
-Mississippi (6 - 0.02% Tipping Point Chance):
-    Kamala Harris - Estimate: 41.47% | Chance of winning: 0.61%
-    Donald Trump - Estimate: 58.53% | Chance of winning: 99.39%
+Mississippi (6 - 0.0% Tipping Point Chance):
+    Kamala Harris - Estimate: 41.49% | Chance of winning: 0.61%
+    Donald Trump - Estimate: 58.51% | Chance of winning: 99.39%
 
-Missouri (10 - 0.06% Tipping Point Chance):
-    Kamala Harris - Estimate: 42.58% | Chance of winning: 1.65%
-    Donald Trump - Estimate: 57.42% | Chance of winning: 98.35%
+Missouri (10 - 0.02% Tipping Point Chance):
+    Kamala Harris - Estimate: 42.64% | Chance of winning: 1.69%
+    Donald Trump - Estimate: 57.36% | Chance of winning: 98.31%
 
-Montana (4 - 0.0% Tipping Point Chance):
-    Kamala Harris - Estimate: 40.64% | Chance of winning: 0.34%
-    Donald Trump - Estimate: 59.36% | Chance of winning: 99.66%
+Montana (4 - 0.01% Tipping Point Chance):
+    Kamala Harris - Estimate: 40.69% | Chance of winning: 0.34%
+    Donald Trump - Estimate: 59.31% | Chance of winning: 99.66%
 
 Nebraska (2 - 0.0% Tipping Point Chance):
-    Kamala Harris - Estimate: 39.41% | Chance of winning: 0.01%
-    Donald Trump - Estimate: 60.59% | Chance of winning: 99.99%
+    Kamala Harris - Estimate: 39.47% | Chance of winning: 0.02%
+    Donald Trump - Estimate: 60.53% | Chance of winning: 99.98%
 
-    Nebraska-1 (1 - 0.0% Tipping Point Chance):
-        Kamala Harris - Estimate: 41.5% | Chance of winning: 0.72%
-        Donald Trump - Estimate: 58.5% | Chance of winning: 99.28%
+    Nebraska-1 (1 - 0.01% Tipping Point Chance):
+        Kamala Harris - Estimate: 41.58% | Chance of winning: 0.74%
+        Donald Trump - Estimate: 58.42% | Chance of winning: 99.26%
 
-    Nebraska-2 (1 - 2.2% Tipping Point Chance):
-        Kamala Harris - Estimate: 51.45% | Chance of winning: 65.93%
-        Donald Trump - Estimate: 48.55% | Chance of winning: 34.07%
+    Nebraska-2 (1 - 2.35% Tipping Point Chance):
+        Kamala Harris - Estimate: 51.53% | Chance of winning: 66.84%
+        Donald Trump - Estimate: 48.47% | Chance of winning: 33.16%
 
     Nebraska-3 (1 - 0.0% Tipping Point Chance):
-        Kamala Harris - Estimate: 23.32% | Chance of winning: 0.0%
-        Donald Trump - Estimate: 76.68% | Chance of winning: 100.0%
+        Kamala Harris - Estimate: 23.34% | Chance of winning: 0.0%
+        Donald Trump - Estimate: 76.66% | Chance of winning: 100.0%
 
-Nevada (6 - 3.72% Tipping Point Chance):
-    Kamala Harris - Estimate: 49.64% | Chance of winning: 45.75%
-    Donald Trump - Estimate: 50.36% | Chance of winning: 54.25%
+Nevada (6 - 4.25% Tipping Point Chance):
+    Kamala Harris - Estimate: 49.66% | Chance of winning: 45.96%
+    Donald Trump - Estimate: 50.34% | Chance of winning: 54.04%
 
-New Hampshire (4 - 1.07% Tipping Point Chance):
-    Kamala Harris - Estimate: 52.95% | Chance of winning: 80.37%
-    Donald Trump - Estimate: 47.05% | Chance of winning: 19.63%
+New Hampshire (4 - 1.38% Tipping Point Chance):
+    Kamala Harris - Estimate: 52.95% | Chance of winning: 80.51%
+    Donald Trump - Estimate: 47.05% | Chance of winning: 19.49%
 
-New Jersey (14 - 0.43% Tipping Point Chance):
-    Kamala Harris - Estimate: 55.87% | Chance of winning: 95.48%
-    Donald Trump - Estimate: 44.13% | Chance of winning: 4.52%
+New Jersey (14 - 0.38% Tipping Point Chance):
+    Kamala Harris - Estimate: 55.85% | Chance of winning: 95.49%
+    Donald Trump - Estimate: 44.15% | Chance of winning: 4.51%
 
-New Mexico (5 - 2.14% Tipping Point Chance):
-    Kamala Harris - Estimate: 54.22% | Chance of winning: 88.58%
-    Donald Trump - Estimate: 45.78% | Chance of winning: 11.42%
+New Mexico (5 - 2.13% Tipping Point Chance):
+    Kamala Harris - Estimate: 54.22% | Chance of winning: 88.67%
+    Donald Trump - Estimate: 45.78% | Chance of winning: 11.33%
 
-New York (28 - 0.04% Tipping Point Chance):
-    Kamala Harris - Estimate: 59.06% | Chance of winning: 99.57%
-    Donald Trump - Estimate: 40.94% | Chance of winning: 0.43%
+New York (28 - 0.05% Tipping Point Chance):
+    Kamala Harris - Estimate: 59.08% | Chance of winning: 99.59%
+    Donald Trump - Estimate: 40.92% | Chance of winning: 0.41%
 
-North Carolina (16 - 10.36% Tipping Point Chance):
-    Kamala Harris - Estimate: 49.05% | Chance of winning: 38.83%
-    Donald Trump - Estimate: 50.95% | Chance of winning: 61.17%
+North Carolina (16 - 9.85% Tipping Point Chance):
+    Kamala Harris - Estimate: 49.04% | Chance of winning: 38.75%
+    Donald Trump - Estimate: 50.96% | Chance of winning: 61.25%
 
 North Dakota (3 - 0.0% Tipping Point Chance):
-    Kamala Harris - Estimate: 32.24% | Chance of winning: 0.0%
-    Donald Trump - Estimate: 67.76% | Chance of winning: 100.0%
+    Kamala Harris - Estimate: 32.29% | Chance of winning: 0.0%
+    Donald Trump - Estimate: 67.71% | Chance of winning: 100.0%
 
-Ohio (17 - 0.66% Tipping Point Chance):
-    Kamala Harris - Estimate: 44.7% | Chance of winning: 5.88%
-    Donald Trump - Estimate: 55.3% | Chance of winning: 94.12%
+Ohio (17 - 0.52% Tipping Point Chance):
+    Kamala Harris - Estimate: 44.77% | Chance of winning: 6.03%
+    Donald Trump - Estimate: 55.23% | Chance of winning: 93.97%
 
 Oklahoma (7 - 0.0% Tipping Point Chance):
-    Kamala Harris - Estimate: 31.86% | Chance of winning: 0.0%
-    Donald Trump - Estimate: 68.14% | Chance of winning: 100.0%
+    Kamala Harris - Estimate: 31.84% | Chance of winning: 0.0%
+    Donald Trump - Estimate: 68.16% | Chance of winning: 100.0%
 
-Oregon (8 - 0.25% Tipping Point Chance):
-    Kamala Harris - Estimate: 56.88% | Chance of winning: 97.82%
-    Donald Trump - Estimate: 43.12% | Chance of winning: 2.18%
+Oregon (8 - 0.21% Tipping Point Chance):
+    Kamala Harris - Estimate: 56.95% | Chance of winning: 97.96%
+    Donald Trump - Estimate: 43.05% | Chance of winning: 2.04%
 
-Pennsylvania (19 - 20.96% Tipping Point Chance):
-    Kamala Harris - Estimate: 49.59% | Chance of winning: 45.18%
-    Donald Trump - Estimate: 50.41% | Chance of winning: 54.82%
+Pennsylvania (19 - 21.43% Tipping Point Chance):
+    Kamala Harris - Estimate: 49.63% | Chance of winning: 45.64%
+    Donald Trump - Estimate: 50.37% | Chance of winning: 54.36%
 
 Rhode Island (4 - 0.0% Tipping Point Chance):
-    Kamala Harris - Estimate: 58.79% | Chance of winning: 99.5%
-    Donald Trump - Estimate: 41.21% | Chance of winning: 0.5%
+    Kamala Harris - Estimate: 58.81% | Chance of winning: 99.52%
+    Donald Trump - Estimate: 41.19% | Chance of winning: 0.48%
 
-South Carolina (9 - 0.07% Tipping Point Chance):
-    Kamala Harris - Estimate: 43.73% | Chance of winning: 3.28%
-    Donald Trump - Estimate: 56.27% | Chance of winning: 96.72%
+South Carolina (9 - 0.1% Tipping Point Chance):
+    Kamala Harris - Estimate: 43.74% | Chance of winning: 3.25%
+    Donald Trump - Estimate: 56.26% | Chance of winning: 96.75%
 
 South Dakota (3 - 0.0% Tipping Point Chance):
-    Kamala Harris - Estimate: 36.09% | Chance of winning: 0.0%
-    Donald Trump - Estimate: 63.91% | Chance of winning: 100.0%
+    Kamala Harris - Estimate: 36.12% | Chance of winning: 0.0%
+    Donald Trump - Estimate: 63.88% | Chance of winning: 100.0%
 
 Tennessee (11 - 0.0% Tipping Point Chance):
-    Kamala Harris - Estimate: 38.6% | Chance of winning: 0.05%
-    Donald Trump - Estimate: 61.4% | Chance of winning: 99.95%
+    Kamala Harris - Estimate: 38.64% | Chance of winning: 0.05%
+    Donald Trump - Estimate: 61.36% | Chance of winning: 99.95%
 
-Texas (40 - 9.02% Tipping Point Chance):
-    Kamala Harris - Estimate: 46.22% | Chance of winning: 13.55%
-    Donald Trump - Estimate: 53.78% | Chance of winning: 86.45%
+Texas (40 - 8.9% Tipping Point Chance):
+    Kamala Harris - Estimate: 46.22% | Chance of winning: 13.4%
+    Donald Trump - Estimate: 53.78% | Chance of winning: 86.6%
 
 Utah (6 - 0.0% Tipping Point Chance):
-    Kamala Harris - Estimate: 38.68% | Chance of winning: 0.06%
-    Donald Trump - Estimate: 61.32% | Chance of winning: 99.94%
+    Kamala Harris - Estimate: 38.74% | Chance of winning: 0.06%
+    Donald Trump - Estimate: 61.26% | Chance of winning: 99.94%
 
 Vermont (3 - 0.0% Tipping Point Chance):
-    Kamala Harris - Estimate: 67.55% | Chance of winning: 100.0%
-    Donald Trump - Estimate: 32.45% | Chance of winning: 0.0%
+    Kamala Harris - Estimate: 67.57% | Chance of winning: 100.0%
+    Donald Trump - Estimate: 32.43% | Chance of winning: 0.0%
 
-Virginia (13 - 3.87% Tipping Point Chance):
-    Kamala Harris - Estimate: 53.34% | Chance of winning: 83.68%
-    Donald Trump - Estimate: 46.66% | Chance of winning: 16.32%
+Virginia (13 - 3.81% Tipping Point Chance):
+    Kamala Harris - Estimate: 53.32% | Chance of winning: 83.63%
+    Donald Trump - Estimate: 46.68% | Chance of winning: 16.37%
 
-Washington (12 - 0.08% Tipping Point Chance):
-    Kamala Harris - Estimate: 58.23% | Chance of winning: 99.22%
-    Donald Trump - Estimate: 41.77% | Chance of winning: 0.78%
+Washington (12 - 0.06% Tipping Point Chance):
+    Kamala Harris - Estimate: 58.28% | Chance of winning: 99.28%
+    Donald Trump - Estimate: 41.72% | Chance of winning: 0.72%
 
 West Virginia (4 - 0.0% Tipping Point Chance):
-    Kamala Harris - Estimate: 30.35% | Chance of winning: 0.0%
-    Donald Trump - Estimate: 69.65% | Chance of winning: 100.0%
+    Kamala Harris - Estimate: 30.38% | Chance of winning: 0.0%
+    Donald Trump - Estimate: 69.62% | Chance of winning: 100.0%
 
-Wisconsin (10 - 5.61% Tipping Point Chance):
-    Kamala Harris - Estimate: 50.32% | Chance of winning: 53.79%
-    Donald Trump - Estimate: 49.68% | Chance of winning: 46.21%
+Wisconsin (10 - 5.91% Tipping Point Chance):
+    Kamala Harris - Estimate: 50.39% | Chance of winning: 54.63%
+    Donald Trump - Estimate: 49.61% | Chance of winning: 45.37%
 
 Wyoming (3 - 0.0% Tipping Point Chance):
-    Kamala Harris - Estimate: 27.6% | Chance of winning: 0.0%
-    Donald Trump - Estimate: 72.4% | Chance of winning: 100.0%
+    Kamala Harris - Estimate: 27.63% | Chance of winning: 0.0%
+    Donald Trump - Estimate: 72.37% | Chance of winning: 100.0%
