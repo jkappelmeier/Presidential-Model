@@ -45,5 +45,5 @@ pollingBiasSigmaState = np.sqrt(5.23e-4)
 
 
 ### congressional District-Level Polling Constants
-pollingProcessNoiseCD = 6.06e-6
+pollingProcessNoiseCD = 6.57e-6
 pollingBiasSigmaCD = np.sqrt(5.23e-4)
