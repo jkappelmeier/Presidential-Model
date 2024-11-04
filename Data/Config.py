@@ -40,10 +40,10 @@ vpHomeStateBoost = 0.0391
 
 ### State-Level Polling Constants
 
-pollingProcessNoiseState = 6.57e-6
-pollingBiasSigmaState = np.sqrt(5.23e-4)
+pollingProcessNoiseState = 1.17E-05
+pollingBiasSigmaState = 0.0304
 
 
 ### congressional District-Level Polling Constants
-pollingProcessNoiseCD = 6.57e-6
-pollingBiasSigmaCD = np.sqrt(5.23e-4)
+pollingProcessNoiseCD = 1.17E-05
+pollingBiasSigmaCD = 0.0304

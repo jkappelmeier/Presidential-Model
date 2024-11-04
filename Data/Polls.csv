@@ -1,4 +1,165 @@
 Geography,Date,Harris,Trump,Pollster,Sample Size
+Pennsylvania,11/3/2024,47%,48%,Trafalgar Group,1089
+Pennsylvania,11/3/2024,49%,50%,Patriot Polling,903
+Pennsylvania,11/2/2024,48%,49%,InsiderAdvantage,800
+Pennsylvania,11/2/2024,47%,47%,The New York Times/Siena College,1527
+Pennsylvania,11/2/2024,51%,50%,ActiVote,400
+Pennsylvania,10/31/2024,48%,48%,Morning Consult,1538
+Pennsylvania,10/30/2024,49%,47%,Muhlenberg College Institute of Public Opinion,460
+Nevada,11/3/2024,49%,50%,Patriot Polling,792
+Nevada,11/2/2024,48%,46%,The New York Times/Siena College,1010
+Arizona,11/3/2024,48%,51%,Patriot Polling,801
+Arizona,11/2/2024,46%,49%,InsiderAdvantage,800
+Arizona,11/2/2024,44%,48%,The New York Times/Siena College,1025
+Arizona,10/30/2024,48%,48%,Morning Consult,666
+Georgia,11/3/2024,49%,50%,Patriot Polling,818
+Georgia,11/2/2024,49%,51%,ActiVote,400
+Georgia,11/1/2024,46%,46%,The New York Times/Siena College,1004
+Georgia,10/30/2024,48%,50%,Morning Consult,1009
+North Carolina,11/3/2024,49%,51%,Patriot Polling,799
+North Carolina,11/2/2024,47%,49%,InsiderAdvantage,800
+North Carolina,11/2/2024,48%,45%,The New York Times/Siena College,1010
+North Carolina,11/2/2024,49%,51%,ActiVote,400
+North Carolina,11/1/2024,47%,49%,Morning Consult,1056
+Wisconsin,11/3/2024,49%,49%,Patriot Polling,835
+Wisconsin,11/2/2024,48%,49%,InsiderAdvantage,800
+Wisconsin,11/2/2024,48%,45%,The New York Times/Siena College,1305
+Wisconsin,10/31/2024,48%,48%,Morning Consult,540
+Michigan,11/3/2024,49%,49%,Patriot Polling,858
+Michigan,11/2/2024,47%,47%,InsiderAdvantage,800
+Michigan,11/2/2024,45%,45%,The New York Times/Siena College,998
+Michigan,11/2/2024,50%,50%,ActiVote,400
+Michigan,10/31/2024,49%,49%,Morning Consult,1108
+National,11/3/2024,49%,48%,Patriot Polling,1115
+National,11/3/2024,49%,49%,Leger,950
+National,11/2/2024,48%,49%,TIPP Insights,1305
+National,11/2/2024,46%,47%,Hart Research Associates/Public Opinion Strategies,1000
+National,11/2/2024,49%,49%,Emerson College,1000
+National,11/2/2024,50%,51%,ActiVote,1000
+National,11/1/2024,49%,46%,Ipsos,2267
+National,10/31/2024,48%,48%,YouGov,1152
+National,10/28/2024,49%,47%,Morning Consult,8918
+Vermont,11/2/2024,63%,31%,University of New Hampshire Survey Center,1167
+Massachusetts,11/2/2024,60%,34%,University of New Hampshire Survey Center,744
+Rhode Island,11/2/2024,54%,40%,University of New Hampshire Survey Center,708
+Maine-2,11/2/2024,44%,48%,University of New Hampshire Survey Center,683
+Maine-1,11/2/2024,60%,36%,University of New Hampshire Survey Center,801
+New Hampshire,11/2/2024,51%,46%,University of New Hampshire Survey Center,2814
+Ohio,11/1/2024,44%,53%,Morning Consult,1254
+Maryland,11/1/2024,64%,31%,Morning Consult,472
+Florida,11/1/2024,46%,51%,Morning Consult,2022
+Texas,10/31/2024,45%,52%,Morning Consult,2120
+Iowa,11/2/2024,45%,54%,Emerson College,800
+Iowa,10/31/2024,47%,44%,Selzer & Co.,808
+Nevada,11/2/2024,46%,52%,AtlasIntel,782
+North Carolina,11/2/2024,47%,50%,AtlasIntel,1310
+Pennsylvania,11/2/2024,47%,49%,AtlasIntel,2049
+Wisconsin,11/2/2024,48%,49%,AtlasIntel,728
+Wisconsin,11/1/2024,51%,49%,ActiVote,400
+Michigan,11/2/2024,48%,49%,AtlasIntel,1198
+Georgia,11/2/2024,47%,49%,AtlasIntel,1174
+Arizona,11/2/2024,45%,52%,AtlasIntel,967
+Arizona,11/1/2024,49%,51%,ActiVote,400
+Arizona,10/28/2024,48%,50%,Mitchell Research & Communications,610
+National,11/2/2024,47%,49%,AtlasIntel,2463
+National,10/31/2024,47%,48%,Kaplan Strategies,671
+National,10/24/2024,51%,48%,Deltapoll,3041
+Florida,11/1/2024,46%,53%,Stetson University Center for Public Opinion Research,452
+Minnesota,11/1/2024,52%,49%,ActiVote,400
+Minnesota,10/30/2024,48%,43%,Chism Strategies,534
+Ohio,10/30/2024,46%,49%,Miami University Department of Political Science,859
+Maryland,10/30/2024,56%,33%,Chism Strategies,510
+Virginia,10/30/2024,45%,45%,Chism Strategies,520
+Missouri,10/29/2024,40%,54%,Remington Research Group,721
+Wyoming,10/28/2024,27%,69%,Cygnal,600
+Massachusetts,11/1/2024,61%,31%,MassINC Polling Group,582
+Pennsylvania,10/31/2024,50%,48%,SoCal Strategies,850
+Pennsylvania,10/31/2024,47%,49%,OnMessage,800
+Pennsylvania,10/31/2024,48%,48%,Redfield & Wilton Strategies,1596
+Pennsylvania,10/31/2024,49%,46%,YouGov,956
+Pennsylvania,10/31/2024,50%,48%,Data for Progress,908
+Pennsylvania,10/30/2024,49%,49%,Suffolk University,500
+Pennsylvania,10/30/2024,50%,48%,Marist College,1400
+Pennsylvania,10/30/2024,48%,47%,The Washington Post,1204
+Arizona,10/31/2024,49%,50%,SoCal Strategies,750
+Arizona,10/31/2024,47%,50%,OnMessage,800
+Arizona,10/31/2024,47%,48%,Redfield & Wilton Strategies,852
+Arizona,10/31/2024,48%,48%,YouGov,856
+Arizona,10/30/2024,47%,48%,Data for Progress,1079
+National,10/31/2024,49%,50%,SoCal Strategies,984
+National,10/31/2024,49%,47%,Echelon Insights,1328
+National,10/30/2024,45%,47%,OnMessage,800
+National,10/30/2024,48%,49%,Quantus Insights,1832
+National,10/29/2024,47%,48%,Big Data Poll,2814
+National,10/28/2024,49%,49%,HarrisX,1475
+Wisconsin,10/31/2024,47%,48%,OnMessage,800
+Wisconsin,10/31/2024,48%,47%,Redfield & Wilton Strategies,932
+Wisconsin,10/31/2024,49%,45%,YouGov,867
+Wisconsin,10/30/2024,50%,48%,Marist College,1330
+Michigan,10/31/2024,48%,48%,OnMessage,800
+Michigan,10/31/2024,47%,47%,Redfield & Wilton Strategies,1731
+Michigan,10/31/2024,48%,45%,YouGov,942
+Michigan,10/30/2024,51%,48%,Marist College,1214
+Michigan,10/28/2024,48%,45%,EPIC-MRA,600
+Nevada,10/31/2024,49%,48%,Emerson College,700
+Nevada,10/31/2024,44%,50%,Susquehanna Polling & Research,400
+Nevada,10/31/2024,47%,48%,Redfield & Wilton Strategies,690
+Nevada,10/31/2024,49%,48%,Noble Predictive Insights,593
+Nevada,10/31/2024,48%,47%,YouGov,773
+Nevada,10/30/2024,49%,47%,Data for Progress,721
+New Mexico,10/31/2024,50%,44%,SurveyUSA,632
+North Carolina,10/31/2024,47%,48%,Redfield & Wilton Strategies,1123
+North Carolina,10/31/2024,48%,49%,YouGov,949
+Georgia,10/31/2024,47%,48%,Redfield & Wilton Strategies,1779
+Georgia,10/31/2024,47%,48%,YouGov,939
+Georgia,10/31/2024,49%,48%,Data for Progress,972
+California,10/30/2024,55%,31%,Cygnal,611
+California,10/22/2024,57%,35%,University of California Berkeley Institute of Governmental Studies,4341
+Virginia,10/29/2024,50%,43%,Cygnal,600
+Virginia,10/29/2024,51%,41%,Roanoke College Institute for Policy and Opinion Research,851
+Maine-2,10/29/2024,44%,49%,SurveyUSA,484
+Maine-1,10/29/2024,58%,37%,SurveyUSA,482
+Wyoming,10/27/2024,28%,63%,University of Wyoming Survey & Analysis Center,662
+South Carolina,10/10/2024,43%,50%,Claflin University Public Opinion and Social Behavior Research Institute,1005
+Nebraska,10/31/2024,39%,57%,Change Research,600
+Wisconsin,10/31/2024,48%,49%,AtlasIntel,673
+Wisconsin,10/30/2024,48%,47%,TIPP Insights,831
+Wisconsin,10/30/2024,48%,48%,Echelon Insights,600
+Wisconsin,10/29/2024,49%,49%,Quantus Insights,637
+Pennsylvania,10/31/2024,47%,49%,AtlasIntel,1738
+Pennsylvania,10/30/2024,46%,51%,Echelon Insights,600
+Pennsylvania,10/23/2024,48%,47%,University of Massachusetts Lowell Center for Public Opinion/YouGov,800
+North Carolina,10/31/2024,47%,51%,AtlasIntel,1373
+North Carolina,10/28/2024,48%,47%,CNN/SSRS,750
+North Carolina,10/23/2024,45%,47%,University of Massachusetts Lowell Center for Public Opinion/YouGov,650
+Nevada,10/31/2024,47%,51%,AtlasIntel,845
+Michigan,10/31/2024,48%,49%,AtlasIntel,1136
+Michigan,10/30/2024,47%,47%,Echelon Insights,600
+Michigan,10/29/2024,47%,48%,Mitchell Research & Communications,1000
+Michigan,10/28/2024,47%,46%,The Washington Post,1003
+Michigan,10/24/2024,49%,45%,University of Massachusetts Lowell Center for Public Opinion/YouGov,600
+Georgia,10/31/2024,47%,49%,AtlasIntel,1212
+Georgia,10/28/2024,47%,48%,CNN/SSRS,732
+Georgia,10/25/2024,47%,49%,The Citadel School of Humanities and Social Sciences,1126
+Georgia,10/24/2024,47%,49%,National Public Affairs,829
+Arizona,10/31/2024,46%,51%,AtlasIntel,1005
+Arizona,10/30/2024,47%,48%,Noble Predictive Insights,775
+National,10/31/2024,47%,49%,AtlasIntel,3490
+National,10/30/2024,48%,48%,TIPP Insights,1265
+National,10/30/2024,48%,46%,American Pulse Research & Polling,822
+National,10/29/2024,48%,44%,RABA Research,781
+National,10/29/2024,49%,48%,HarrisX,3718
+National,10/29/2024,46%,49%,J.L. Partners,1000
+National,10/26/2024,46%,45%,Cygnal,1507
+Colorado,10/30/2024,53%,41%,Keating Research,600
+Colorado,10/30/2024,57%,43%,ActiVote,400
+Utah,10/30/2024,40%,60%,ActiVote,400
+Maryland,10/30/2024,64%,37%,ActiVote,400
+Massachusetts,10/30/2024,66%,34%,ActiVote,400
+Florida,10/28/2024,43%,48%,Cygnal,600
+South Carolina,10/25/2024,42%,54%,The Citadel School of Humanities and Social Sciences,1136
+Ohio,10/24/2024,44%,51%,University of Akron Ray C. Bliss Institute of Applied Politics,1241
+New Hampshire,10/23/2024,50%,43%,University of Massachusetts Lowell Center for Public Opinion/YouGov,600
 Wisconsin,10/29/2024,49%,49%,SoCal Strategies,600
 Wisconsin,10/28/2024,51%,45%,CNN/SSRS,736
 Wisconsin,10/24/2024,46%,44%,Marquette University Law School,753
